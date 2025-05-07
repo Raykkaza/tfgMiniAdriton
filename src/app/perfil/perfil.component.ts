@@ -14,6 +14,9 @@ export class PerfilComponent implements OnInit {
   extraComments: string = '';
   imgPerfilUrl: string = '';
   pagos: any[] = [];
+  suscrito: boolean = false;
+  fechaExpiracion: string | null = null;
+
 
   constructor(private router: Router, private http: HttpClient) { }
 
@@ -25,6 +28,8 @@ export class PerfilComponent implements OnInit {
 
     this.cargarInfoAdicional();
     this.cargarPagos();
+    this.checkSuscripcion();
+
   }
 
   cargarInfoAdicional() {
@@ -59,4 +64,32 @@ export class PerfilComponent implements OnInit {
   irAEditar() {
     this.router.navigate(['/actualizar-perfil']);
   }
+
+  checkSuscripcion() {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.get<any>('https://miniadritonff.com/api/check_user_subscription.php', { headers }).subscribe({
+      next: (res) => {
+        this.suscrito = res.active_sub;
+        this.fechaExpiracion = res.sub_expiration_date
+          ? new Date(res.sub_expiration_date).toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
+          : null;
+      },
+      error: (err) => {
+        console.error('Error al comprobar suscripción:', err);
+      }
+    });
+  }
+
+  irAPasarela() {
+    // Puedes cambiar esta ruta cuando implementes Stripe o similar
+    window.location.href = 'https://miniadritonff.com/pago';
+  }
+
+
 }

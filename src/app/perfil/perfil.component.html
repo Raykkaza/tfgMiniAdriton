@@ -1,13 +1,28 @@
 <div class="perfil-wrapper">
     <!-- Columna izquierda: datos -->
     <div class="perfil-info">
-        <h2>Perfil de {{ username }}</h2>
+        <h2>{{ username }}</h2>
+
+
+        
+        <ng-template #noSub>
+            <div class="no-sub-box">
+                <p style="margin: 0;">Actualmente no estás suscrito.</p>
+                <button class="btn-suscribirse" (click)="irAPasarela()">Suscribirse</button>
+            </div>
+        </ng-template>
+
 
         <div class="img-wrapper">
             <img [src]="imgPerfilUrl" alt="Imagen de perfil" />
         </div>
 
-        <p><strong>Email:</strong> {{ email }}</p>
+                <div class="premium-box" *ngIf="suscrito; else noSub">
+                    <span class="estrella">★</span>
+                    <span class="premium-text">Usuario Premium</span>
+                    <div class="expira">Suscripción activa hasta {{ fechaExpiracion }}</div>
+                </div>
+
 
         <div *ngIf="userData">
             <h3>Información adicional</h3>

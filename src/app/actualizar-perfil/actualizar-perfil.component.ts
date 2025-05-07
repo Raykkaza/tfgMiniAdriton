@@ -111,7 +111,9 @@ export class ActualizarPerfilComponent implements OnInit {
       next: () => {
         localStorage.setItem('username', this.username);
         localStorage.setItem('email', this.email);
-        this.router.navigate(['/perfil']);
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/perfil']);
+        });
       },
       error: (err) => {
         console.error('Error al actualizar info básica:', err);
