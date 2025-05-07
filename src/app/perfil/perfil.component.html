@@ -1,0 +1,47 @@
+<div class="perfil-wrapper">
+    <!-- Columna izquierda: datos -->
+    <div class="perfil-info">
+        <h2>Perfil de {{ username }}</h2>
+
+        <div class="img-wrapper">
+            <img [src]="imgPerfilUrl" alt="Imagen de perfil" />
+        </div>
+
+        <p><strong>Email:</strong> {{ email }}</p>
+
+        <div *ngIf="userData">
+            <h3>Información adicional</h3>
+            <p><strong>Días de deporte:</strong> {{ userData.deporte_semanal }}</p>
+            <p><strong>Intensidad:</strong> {{ userData.intensidad_deporte }}</p>
+            <p><strong>Alérgenos:</strong> {{ userData.alergenos_intolerancias }}</p>
+            <p><strong>Peso:</strong> {{ userData.peso_actual }} kg</p>
+            <p><strong>Altura:</strong> {{ userData.altura }} cm</p>
+            <p><strong>Sexo:</strong> {{ userData.sexo_biologico }}</p>
+            <p><strong>Comentarios:</strong> {{ extraComments }}</p>
+        </div>
+
+        <button (click)="irAEditar()">Actualizar perfil</button>
+    </div>
+
+    <!-- Columna derecha: pagos recientes -->
+    <div class="perfil-pagos">
+        <h3 style="text-align: center;">Pagos recientes</h3>
+    
+        <div class="pagos-scroll">
+            <ng-container *ngIf="pagos.length > 0; else noPagos">
+                <div class="pago-card" *ngFor="let pago of pagos">
+                    <div class="pago-cabecera">
+                        <span class="pago-cantidad">{{ pago.payment_ammount }} €</span>
+                        <span class="pago-fecha">{{ pago.payment_date }}</span>
+                    </div>
+                    <div class="pago-concepto">{{ pago.payment_concept }}</div>
+                </div>
+            </ng-container>
+    
+            <ng-template #noPagos>
+                <p class="sin-pagos">No hay pagos registrados.</p>
+            </ng-template>
+        </div>
+    </div>
+
+</div>

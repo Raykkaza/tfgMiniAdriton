@@ -1,0 +1,78 @@
+<div class="actualizar-perfil-container">
+    <h2>Actualizar perfil</h2>
+
+    <!-- Imagen de perfil -->
+    <div class="img-wrapper" (click)="fileInput.click()">
+        <img *ngIf="previewUrl; else placeholder" [src]="previewUrl" alt="Vista previa" />
+        <ng-template #placeholder>
+            <div class="upload-placeholder">Haz clic para subir una imagen</div>
+        </ng-template>
+    </div>
+    <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden />
+
+    <!-- Info básica -->
+    <div class="form-group">
+        <label>Nombre de usuario</label>
+        <input type="text" [(ngModel)]="username" name="username" required />
+    </div>
+
+    <div class="form-group">
+        <label>Correo electrónico</label>
+        <input type="email" [(ngModel)]="email" name="email" required />
+    </div>
+
+    <!-- Información adicional (desplegable) -->
+    <button (click)="mostrarAdicional = !mostrarAdicional">
+        Información adicional
+    </button>
+
+    <div *ngIf="mostrarAdicional" class="form-adicional">
+        <div class="form-group">
+            <label>Días de deporte semanales</label>
+            <input type="number" [(ngModel)]="form.deporte_semanal" min="0" max="7" />
+        </div>
+
+        <div class="form-group">
+            <label>Intensidad del deporte</label>
+            <select [(ngModel)]="form.intensidad_deporte">
+                <option value="baja">Baja</option>
+                <option value="media">Media</option>
+                <option value="elevada">Elevada</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Alérgenos o intolerancias</label>
+            <input type="text" [(ngModel)]="form.alergenos_intolerancias" />
+        </div>
+
+        <div class="form-group">
+            <label>Peso actual (kg)</label>
+            <input type="number" [(ngModel)]="form.peso_actual" min="20" max="300" step="0.1" />
+        </div>
+
+        <div class="form-group">
+            <label>Altura (cm)</label>
+            <input type="number" [(ngModel)]="form.altura" min="100" max="250" />
+        </div>
+
+        <div class="form-group">
+            <label>Sexo biológico</label>
+            <select [(ngModel)]="form.sexo_biologico">
+                <option value="M">M</option>
+                <option value="F">F</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Comentarios adicionales</label>
+            <textarea [(ngModel)]="extraComments" rows="3"></textarea>
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="botones">
+        <button (click)="guardar()">Guardar cambios</button>
+        <button class="cancelar" (click)="cancelar()">Cancelar</button>
+    </div>
+</div>
