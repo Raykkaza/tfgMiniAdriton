@@ -9,6 +9,9 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { ActualizarPerfilComponent } from './actualizar-perfil/actualizar-perfil.component';
+import { SesionCaducadaComponent } from './sesion-caducada/sesion-caducada.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,9 @@ import { ActualizarPerfilComponent } from './actualizar-perfil/actualizar-perfil
     LoginComponent,
     PerfilComponent,
     ActualizarPerfilComponent,
+    SesionCaducadaComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

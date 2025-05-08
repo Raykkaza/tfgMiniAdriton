@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-perfil',
@@ -16,21 +17,52 @@ export class PerfilComponent implements OnInit {
   pagos: any[] = [];
   suscrito: boolean = false;
   fechaExpiracion: string | null = null;
+  
 
-
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, private auth: AuthService) { }
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('username') || '';
-    this.email = localStorage.getItem('email') || '';
-    const img = localStorage.getItem('img_perfil');
-    this.imgPerfilUrl = img ? `https://miniadritonff.com/api/${img}` : 'https://miniadritonff.com/api/uploads/placeholder.png';
+    const token = localStorage.getItem('token') || '';
 
-    this.cargarInfoAdicional();
-    this.cargarPagos();
-    this.checkSuscripcion();
+    if (!token) {
+      this.sessionCaducada();
+      return;
+    }
 
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    // Verifica el token antes de cargar el resto
+    this.http.get<any>('https://miniadritonff.com/api/check_user_subscription.php', { headers }).subscribe({
+      next: (res) => {
+        this.username = localStorage.getItem('username') || '';
+        this.email = localStorage.getItem('email') || '';
+        const img = localStorage.getItem('img_perfil');
+        this.imgPerfilUrl = img ? `https://miniadritonff.com/api/${img}` : 'https://miniadritonff.com/api/uploads/placeholder.png';
+
+        this.suscrito = res.active_sub;
+        this.fechaExpiracion = res.sub_expiration_date
+          ? new Date(res.sub_expiration_date).toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
+          : null;
+
+        this.cargarInfoAdicional();
+        this.cargarPagos();
+      },
+      error: () => {
+        this.sessionCaducada();
+      }
+    });
   }
+
+  sessionCaducada() {
+    this.auth.logout();
+    this.router.navigate(['/sesion-caducada']);
+  }
+
+
 
   cargarInfoAdicional() {
     const token = localStorage.getItem('token') || '';
@@ -65,31 +97,7 @@ export class PerfilComponent implements OnInit {
     this.router.navigate(['/actualizar-perfil']);
   }
 
-  checkSuscripcion() {
-    const token = localStorage.getItem('token') || '';
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-
-    this.http.get<any>('https://miniadritonff.com/api/check_user_subscription.php', { headers }).subscribe({
-      next: (res) => {
-        this.suscrito = res.active_sub;
-        this.fechaExpiracion = res.sub_expiration_date
-          ? new Date(res.sub_expiration_date).toLocaleDateString('es-ES', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })
-          : null;
-      },
-      error: (err) => {
-        console.error('Error al comprobar suscripción:', err);
-      }
-    });
-  }
-
   irAPasarela() {
-    // Puedes cambiar esta ruta cuando implementes Stripe o similar
     window.location.href = 'https://miniadritonff.com/pago';
   }
-
-
 }

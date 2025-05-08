@@ -1,29 +1,7 @@
-<header class="navbar">
-  <div class="logo">Mi TFG</div>
-  <nav class="nav-links">
-    <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
-
-    <ng-container *ngIf="username; else loginLink">
-      <div class="user-menu" (mouseenter)="mostrarMenu = true" (mouseleave)="mostrarMenu = false">
-        <span class="user-label">Hola, {{ username }}</span>
-        <div class="menu-dropdown" *ngIf="mostrarMenu">
-          <a routerLink="/perfil">Ver perfil</a>
-          <a (click)="logout()">Cerrar sesión</a>
-        </div>
-      </div>
-    </ng-container>
-
-
-    <ng-template #loginLink>
-      <a routerLink="/login" routerLinkActive="activo">Iniciar sesión</a>
-    </ng-template>
-  </nav>
-</header>
+<app-header></app-header>
 
 <main class="contenido">
   <router-outlet></router-outlet>
 </main>
 
-<footer class="footer">
-  <p>&copy; 2025 Mi TFG - Todos los derechos reservados</p>
-</footer>
+<app-footer></app-footer>

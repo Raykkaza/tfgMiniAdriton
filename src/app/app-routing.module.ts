@@ -5,12 +5,14 @@ import { LoginComponent } from './login/login.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ActualizarPerfilComponent } from './actualizar-perfil/actualizar-perfil.component';
+import { SesionCaducadaComponent } from './sesion-caducada/sesion-caducada.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard]  },
   { path: 'actualizar-perfil', component: ActualizarPerfilComponent, canActivate: [AuthGuard] },
+  { path: 'sesion-caducada', component: SesionCaducadaComponent  },
   { path: '**', redirectTo: '' }
 ];
 

@@ -1,0 +1,29 @@
+.sesion-caducada-wrapper {
+    max-width: 500px;
+    margin: 10vh auto;
+    padding: 2rem;
+    background-color: #fbe9e7;
+    border: 1px solid #ffab91;
+    border-radius: 8px;
+    text-align: center;
+    color: #333;
+}
+
+.sesion-caducada-wrapper h2 {
+    color: #d84315;
+    margin-bottom: 1rem;
+}
+
+.sesion-caducada-wrapper button {
+    background-color: #ff7043;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.sesion-caducada-wrapper button:hover {
+    background-color: #f4511e;
+}

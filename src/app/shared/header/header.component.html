@@ -1,0 +1,25 @@
+<header class="navbar">
+    <div class="logo">Mi TFG</div>
+
+    <nav class="nav-links">
+        <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+
+        <ng-container *ngIf="username; else loginLink">
+            <div class="user-menu-wrapper" (click)="toggleMenu()" tabindex="0" (blur)="cerrarMenu()">
+                <span class="user-nombre">Hola, {{ username }}</span>
+                <svg class="flecha" viewBox="0 0 24 24" width="16" height="16">
+                    <path d="M7 10l5 5 5-5z" fill="currentColor" />
+                </svg>
+
+                <div class="dropdown" *ngIf="mostrarMenu">
+                    <a routerLink="/perfil">Ver perfil</a>
+                    <a (click)="logout()">Cerrar sesión</a>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-template #loginLink>
+            <a routerLink="/login" routerLinkActive="activo">Iniciar sesión</a>
+        </ng-template>
+    </nav>
+</header>
