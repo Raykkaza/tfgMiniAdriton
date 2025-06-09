@@ -1,25 +1,57 @@
-<header class="navbar">
-    <div class="logo">Mi TFG</div>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+        <!-- Brand / logo -->
+        <a class="navbar-brand fw-semibold" routerLink="/">MINIADRITONFF</a>
 
-    <nav class="nav-links">
-        <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+        <!-- Mobile toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar" aria-expanded="false" aria-label="Abrir menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <ng-container *ngIf="username; else loginLink">
-            <div class="user-menu-wrapper" (click)="toggleMenu()" tabindex="0" (blur)="cerrarMenu()">
-                <span class="user-nombre">Hola, {{ username }}</span>
-                <svg class="flecha" viewBox="0 0 24 24" width="16" height="16">
-                    <path d="M7 10l5 5 5-5z" fill="currentColor" />
-                </svg>
+        <!-- Collapsible content -->
+        <div id="mainNavbar" class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                <!-- Enlaces principales -->
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/consultas" routerLinkActive="active">Consultas</a>
+                </li>
 
-                <div class="dropdown" *ngIf="mostrarMenu">
-                    <a routerLink="/perfil">Ver perfil</a>
-                    <a (click)="logout()">Cerrar sesión</a>
-                </div>
-            </div>
-        </ng-container>
+                <!-- Menú de usuario → sólo si hay sesión -->
+                <ng-container *ngIf="username; else loginLink">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Hola, {{ username }}
+                        </a>
 
-        <ng-template #loginLink>
-            <a routerLink="/login" routerLinkActive="activo">Iniciar sesión</a>
-        </ng-template>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" routerLink="/perfil">Ver perfil</a>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item" (click)="logout()">
+                                    Cerrar sesión
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                </ng-container>
+
+                <!-- Link de login si NO hay sesión -->
+                <ng-template #loginLink>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/login" routerLinkActive="active">Iniciar sesión</a>
+                    </li>
+                </ng-template>
+            </ul>
+        </div>
     </nav>
 </header>

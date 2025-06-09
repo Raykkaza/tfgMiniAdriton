@@ -1,6 +1,103 @@
-.home-container {
-    padding: 2rem;
+:host {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    color: #222;
+}
+
+section {
+    padding: 4rem 2rem;
+    max-width: 1500px;
+    min-height: 300px;
+    margin: 0 auto;
+}
+
+.hero {
     text-align: center;
+    background: linear-gradient(120deg, #007acc, #b3e5fc);
+    color: white;
+    padding: 6rem 2rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.info-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.info-card {
     background-color: #f5faff;
-    color: #000;
+    border: 1px solid #cce4f6;
+    border-radius: 8px;
+    padding: 1.5rem;
+    flex: 1 1 250px;
+    max-width: 300px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.instagram-section iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: 12px;
+    margin-top: 1rem;
+}
+
+.testimonios-carrusel {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    scroll-snap-type: x mandatory;
+}
+
+.testimonio {
+    background: #ffffff;
+    border: 1px solid #cce4f6;
+    border-radius: 10px;
+    padding: 1.5rem;
+    min-width: 250px;
+    max-width: 300px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.testimonio img {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1rem;
+}
+
+.testimonio blockquote {
+    font-style: italic;
+    margin: 0.5rem 0;
+    color: #444;
+}
+
+.nombre {
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+
+.blog-section {
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 4rem 2rem;
+    border-radius: 10px;
 }

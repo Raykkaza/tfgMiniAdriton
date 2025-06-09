@@ -1,3 +1,48 @@
-<footer class="footer">
-    <p>&copy; 2025 Mi TFG - Todos los derechos reservados</p>
+<footer   class="footer footer-branding mt-auto py-4 border-top">
+    <div class="container px-4">
+        <div class="row gy-3 align-items-center">
+            <!-- Marca & copyright -->
+            <div class="col-md-4 text-center text-md-start">
+                <a routerLink="/" class="navbar-brand fw-semibold mb-2 d-inline-block">
+                    Adrian Fernandez Vento
+                </a>
+                <p class="text-muted small mb-0">
+                    © {{ year }} • Todos los derechos reservados
+                </p>
+            </div>
+
+            <!-- Navegación rápida -->
+            <div class="col-md-4 text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item mx-2">
+                        <a routerLink="/" routerLinkActive="fw-semibold" class="link-secondary">Inicio</a>
+                    </li>
+                    <li class="list-inline-item mx-2">
+                        <a routerLink="/blog" routerLinkActive="fw-semibold" class="link-secondary">Blog</a>
+                    </li>
+                    <li class="list-inline-item mx-2">
+                        <a routerLink="/consultas" routerLinkActive="fw-semibold" class="link-secondary">Consultas</a>
+                    </li>
+                    <li class="list-inline-item mx-2">
+                        <a routerLink="/login" routerLinkActive="fw-semibold" class="link-secondary">Iniciar sesión</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Redes sociales -->
+            <div class="col-md-4 text-center text-md-end">
+
+                <a href="https://www.linkedin.com/in/adrian-fernandez-vento-nutrición-deportiva/" target="_blank" rel="noopener" class="text-muted mx-2"
+                    aria-label="LinkedIn">
+                    <i class="bi bi-linkedin fs-4"></i>
+                </a>
+                <a href="https://instagram.com/miniadritonff" target="_blank" rel="noopener" class="text-muted mx-2"
+                    aria-label="Instagram">
+                    <i class="bi bi-instagram fs-4"></i>
+                </a>
+
+            </div>
+        </div>
+    </div>
 </footer>
+  

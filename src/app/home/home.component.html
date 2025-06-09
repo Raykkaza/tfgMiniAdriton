@@ -1,4 +1,35 @@
-<div class="home-container">
-    <h1>Bienvenido a la página de inicio</h1>
-    <p>Este es el componente Home. Aquí irá el contenido principal.</p>
-</div>
+<section class="hero">
+    <h1>MiniAdritonFF</h1>
+    <p>Nutricionista</p>
+</section>
+
+<section class="info-section">
+    <div class="info-card" *ngFor="let card of infoCards">
+        <h3>{{ card.titulo }}</h3>
+        <p>{{ card.descripcion }}</p>
+    </div>
+</section>
+
+<section class="instagram-section">
+
+    <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script><iframe
+        src="//lightwidget.com/widgets/b78de74371db54c1837beeb99f78e9a5.html" scrolling="no" allowtransparency="true"
+        class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
+</section>
+
+<section class="testimonios-section">
+    <h2>Lo que dicen mis clientes</h2>
+    <div class="testimonios-carrusel">
+        <div class="testimonio" *ngFor="let t of testimonios">
+            <img [src]="t.img" alt="Foto cliente" />
+            <blockquote>"{{ t.texto }}"</blockquote>
+            <p class="nombre">{{ t.nombre }}</p>
+        </div>
+    </div>
+</section>
+
+<section class="blog-section">
+    <h2>Blog &amp; Artículos</h2>
+    <p>Muy pronto podrás leer contenido exclusivo sobre nutrición, salud y estilo de vida.</p>
+</section>
+  
