@@ -9,20 +9,15 @@ import {  Component } from '@angular/core';
 })
 export class HomeComponent {
   /* -----------  Datos de la vista  ----------- */
-  infoCards = [
-    {
-      titulo: '100% Personalizado',
-      descripcion: 'Planes nutricionales adaptados a tus objetivos y estilo de vida.',
-    },
-    {
-      titulo: 'Seguimiento Continuo',
-      descripcion: 'Atención y ajustes cada semana según tu evolución.',
-    },
-    {
-      titulo: 'Comodidad Online',
-      descripcion: 'Consulta desde casa, sin desplazamientos.',
-    },
+
+
+  infografias = [
+    'infografia1.jpg',
+    'infografia2.jpg',
+    'infografia3.jpg',
   ];
+
+  
 
   testimonios = [
     {

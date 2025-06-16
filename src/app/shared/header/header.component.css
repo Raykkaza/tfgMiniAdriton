@@ -1,6 +1,20 @@
 /* Refuerza el “branding” y la visibilidad del enlace activo */
+/* Logo responsivo */
+.brand-logo {
+    min-height: 150px;
+    width: auto; 
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .05)); 
+
+    @media (max-width: 575.98px) {
+            max-height: 32px;
+        }
+}
+
+
+/* (Opcional) elimina el subrayado del link cuando sea imagen */
 .navbar-brand {
-    letter-spacing: 0.5px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .nav-link.active,
@@ -12,3 +26,19 @@
 .dropdown-toggle::after {
     margin-left: .25rem;
 }
+
+.navbar-compact {
+    padding-top: 0rem;
+    /* antes 0.5rem → ahora ~-30 % */
+    padding-bottom: 0rem; }
+
+
+
+        .navbar-img {
+            background-image: url("/menu_bg.jpg");
+            background-size: cover;
+            /* rellena en horizontal */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #0d6efd;
+            /* fallback por si la imagen no carga */     }

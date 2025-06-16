@@ -1,14 +1,40 @@
-<section class="hero">
-    <h1>MiniAdritonFF</h1>
-    <p>Nutricionista</p>
-</section>
+<!-- Carrusel Hero --------------------------------------------------------->
+<section class="hero-carousel">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+        <!-- Slides -->
+        <div class="carousel-inner rounded-3">
+            <div class="carousel-item active">
+                <img src="banner1.jpg" class="d-block w-100" alt="Banner 1" loading="lazy" />
+            </div>
+            <div class="carousel-item">
+                <img src="banner2.jpg" class="d-block w-100" alt="Banner 2" loading="lazy" />
+            </div>
+            <div class="carousel-item">
+                <img src="banner3.jpg" class="d-block w-100" alt="Banner 3" loading="lazy" />
+            </div>
+        </div>
 
-<section class="info-section">
-    <div class="info-card" *ngFor="let card of infoCards">
-        <h3>{{ card.titulo }}</h3>
-        <p>{{ card.descripcion }}</p>
+        <!-- Controles (flechas) -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
     </div>
 </section>
+  
+
+<section class="info-section">
+    <div class="info-card p-0 overflow-hidden" *ngFor="let img of infografias">
+        <img [src]="img" [alt]="'Infografía sobre nutrición'"
+        class="w-100 h-100 object-fit-cover"
+        loading="lazy"
+        />
+    </div>
+    </section>
 
 <section class="instagram-section">
 
