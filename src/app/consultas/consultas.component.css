@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+
+.calendar {
+    flex: 1 1 50%;
+    min-width: 300px;
+}
+
+.event-list {
+    flex: 1 1 45%;
+    min-width: 250px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    padding: 1rem;
+    position: relative;
+}
+
+button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.formulario-cita {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+
+.formulario-cita label {
+    display: block;
+    margin: 0.5rem 0;
+}
+
+.form-actions {
+    margin-top: 1rem;
+}

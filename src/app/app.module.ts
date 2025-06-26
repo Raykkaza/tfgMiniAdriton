@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; 
 import { HttpClient, HttpClientModule } from '@angular/common/http'; 
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +14,7 @@ import { ActualizarPerfilComponent } from './actualizar-perfil/actualizar-perfil
 import { SesionCaducadaComponent } from './sesion-caducada/sesion-caducada.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { ConsultasComponent } from './consultas/consultas.component';
 
 @NgModule({
   declarations: [
@@ -23,12 +26,17 @@ import { FooterComponent } from './shared/footer/footer.component';
     SesionCaducadaComponent,
     HeaderComponent,
     FooterComponent,
+    ConsultasComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule, 
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
