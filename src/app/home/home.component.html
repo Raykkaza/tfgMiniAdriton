@@ -59,19 +59,42 @@
     </div>
 </section>
 
-<section class="presentacion-section">
-    <img src="tradermark.jpg" alt="miniadritonff">
-    <h2>¿Quién soy?</h2>
-    <div>
+<!-- Presentación / About ------------------------------------------------>
+<section class="presentacion-card rounded-4 shadow-sm overflow-hidden">
 
-        <p>Soy AdritonFF, nutricionista especializado en ayudar a personas a alcanzar
-            sus objetivos de salud y bienestar. Con años de experiencia y un enfoque personalizado, estoy aquí para guiarte en
-            tu viaje hacia una vida más saludable.</p>
-        <p>En mi consulta, ofrezco un enfoque integral que combina nutrición, ejercicio y bienestar emocional. Mi objetivo es
-            ayudarte a desarrollar hábitos sostenibles que te permitan sentirte mejor y alcanzar tus metas de salud.</p>    
+    <!-- Contenedor flexible -->
+    <div class="d-flex flex-column flex-lg-row h-100">
+
+        <!-- Imagen -->
+        <figure class="presentacion-img flex-shrink-0 m-0">
+            <img src="tradermark.jpg" alt="MiniAdritonFF" class="w-100 h-100 object-fit-cover" loading="lazy" />
+        </figure>
+
+        <!-- Texto + CTA -->
+        <div class="presentacion-body d-flex flex-column p-4 p-lg-5">
+
+            <h2 class="presentacion-title h4 fw-bold mb-3">¿Quién soy?</h2>
+
+            <p class="presentacion-text flex-grow-1">
+                Soy <strong>Adrián</strong>, dietista especializado en nutrición deportiva, y mi
+                objetivo es ayudarte a alcanzar tu máximo rendimiento de forma segura y sostenible.
+                Con experiencia en atletas amateur y profesionales, combino ciencia, personalización
+                y compromiso para que la nutrición se convierta en tu mejor aliada.<br /><br />
+                Certificado en valoración antropométrica (ISAK I) y formado en biología,
+                fisiología y suplementación, te ofrezco planes adaptados a tus necesidades
+                reales. Porque cada atleta es único, y tu alimentación también debería serlo.
+            </p>
+
+            <p class="mb-3">
+                Si estás listo para dar el primer paso hacia una vida más saludable,
+                ¡contáctame hoy mismo! Estoy aquí para apoyarte en cada paso del camino.
+            </p>
+
+            <a routerLink="/consultas" id="solicitar-consulta" class="btn btn-primary align-self-lg-end align-self-center">
+                Solicitar consulta
+            </a>
+        </div>
+
     </div>
-    
-    <p>Si estás listo para dar el primer paso hacia una vida más saludable, ¡contáctame hoy mismo! Estoy aquí para apoyarte en cada paso del camino.</p>
-    <a href="/consultas" class="btn btn-primary">Solicitar consulta</a>
-
 </section>
+  

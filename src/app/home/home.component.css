@@ -126,46 +126,75 @@ section {
     padding: 4rem 2rem;
     border-radius: 10px;
 }
+/* ───────────────────────────  Presentación / About  ────────────────────────── */
 
-.presentacion-section {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 2rem;
-    padding: 4rem 2rem;
+/* Contenedor principal */
+.presentacion-card {
+    background: #e4effb;
+    /* usa tu color primario */
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 2rem auto;
+    border-radius: 1rem;
+    /* refuerzo por si falla .rounded-4 de Bootstrap */
 }
 
-.presentacion-section img {
+/* Imagen lateral */
+.presentacion-img {
     width: 100%;
-    max-width: 400px;
-    height: auto;
-    border-radius: 12px;
+    max-width: 340px;
+    /* ancho fijo en escritorio */
+    height: 100%;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    /* esquinas interiores */
+}
+
+/* Imagen propiamente dicha */
+.presentacion-img img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    flex-shrink: 0;
+    /* rellena sin deformar */
 }
 
-.presentacion-section h2 {
-    margin-top: 0;
+/* Ajustes para pantallas < 992 px (se apila) */
+@media (max-width: 991.98px) {
+    .presentacion-img {
+        max-width: 100%;
+        height: 260px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
 }
 
-.presentacion-section>div {
-    flex: 1;
-    min-width: 300px;
+/* Texto y título */
+.presentacion-title {
+    letter-spacing: 0.3px;
 }
 
-.presentacion-section .btn {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.75rem 1.5rem;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
+.presentacion-text {
+    color: #444;
+    line-height: 1.6;
 }
 
-.presentacion-section .btn:hover {
-    background-color: #0056b3;
+#solicitar-consulta {
+    margin-top: 2rem;
+    margin-right: 260px;
+    /* espacio entre el texto y el botón */
+    width: 100%;
+    max-width: 200px;
+    background-color: #ef626c;
+    /* ancho máximo del botón */
+    border: 0px;
 }
+#solicitar-consulta:hover {
+    margin-top: 2rem;
+    margin-right: 260px;
+    /* espacio entre el texto y el botón */
+    width: 100%;
+    max-width: 200px;
+    background-color: #c2414a;
+    /* ancho máximo del botón */
+    border: 0px;
+}
+/* ───────────────────────────────────────────────────────────────────────────── */
