@@ -6,41 +6,53 @@
             <span>{{ viewDate | date:'MMMM yyyy':'':'es' }}</span>
             <button (click)="mesSiguiente()" [disabled]="!puedeAvanzar()">›</button>
         </div>
-          
+
         <mwl-calendar-month-view #monthView [viewDate]="viewDate" [weekStartsOn]="1" [events]="events"
             (dayClicked)="onDayClicked($event.day.date)" (beforeViewRender)="beforeMonthViewRender($event)">
         </mwl-calendar-month-view>
-
     </div>
 
     <!-- Columna derecha: Lista de citas -->
     <div class="event-list">
         <h3 *ngIf="selectedDate">Citas para {{ selectedDate | date: 'fullDate' }}</h3>
+
         <ul *ngIf="selectedDate">
             <li *ngFor="let event of getEventsForDay(selectedDate)">
                 🕒 {{ event.start | date:'HH:mm' }} - {{ event.end | date:'HH:mm' }}: {{ event.title }}
+        
+                <div *ngIf="!isAdmin && event.meta?.status === 0" class="pendiente-cita">
+                    Pendiente de aprobación
+                </div>
             </li>
+        
             <li *ngIf="getEventsForDay(selectedDate).length === 0">
-                No hay citas programadas
+                No tienes citas programadas para este día.
             </li>
         </ul>
+
         <p *ngIf="!selectedDate">Haz clic en un día para ver las citas</p>
 
-        <!-- Botón para añadir consulta -->
-        <button (click)="alternarFormulario()" [disabled]="!selectedDate">
-            {{ mostrarFormulario ? 'Cancelar' : 'Añadir consulta' }}
-        </button>
-          
+        <!-- Mensaje de restricción -->
+        <div *ngIf="!isAdmin && tieneCitaPendiente" class="alerta-cita-pendiente">
+            Ya tienes una cita pendiente de aprobación. Espera a que se apruebe antes de solicitar otra.
+        </div>
         
+        <!-- Botón dinámico -->
+        <button (click)="alternarFormulario()" [disabled]="!selectedDate || (!isAdmin && tieneCitaPendiente)">
+            {{ mostrarFormulario ? 'Cancelar' : (isAdmin ? 'Añadir consulta' : 'Pedir cita') }}
+        </button>
+
         <!-- Formulario expandible -->
         <div class="formulario-cita" *ngIf="mostrarFormulario">
-            <h4>Nueva consulta para {{ selectedDate | date:'fullDate' }}</h4>
-        
+            <h4>
+                {{ isAdmin ? 'Nueva consulta' : 'Solicitud de cita' }} para {{ selectedDate | date:'fullDate' }}
+            </h4>
+
             <label>
                 Nombre:
                 <input [(ngModel)]="nuevoNombre" type="text" />
             </label>
-        
+
             <label>
                 Hora:
                 <select [(ngModel)]="nuevaHora">
@@ -49,16 +61,12 @@
                     </option>
                 </select>
             </label>
-        
+
             <div class="form-actions">
-                <button (click)="crearConsulta()">Guardar</button>
+                <button (click)="crearConsulta()">
+                    {{ isAdmin ? 'Guardar consulta' : 'Solicitar cita' }}
+                </button>
             </div>
         </div>
-  
-       
-
     </div>
-
-      
 </div>
-  

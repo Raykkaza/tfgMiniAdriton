@@ -4,4 +4,22 @@
   <router-outlet></router-outlet>
 </main>
 
+
+<!-- Botón flotante para admins -->
+<button *ngIf="isAdmin" class="hamburguesa-btn" (click)="mostrarMenuAdmin = !mostrarMenuAdmin">
+  ☰
+</button>
+
+<!-- Panel admin lateral -->
+<div class="menu-admin" [class.abierto]="mostrarMenuAdmin" *ngIf="isAdmin">
+  <button class="cerrar" (click)="mostrarMenuAdmin = false">✕</button>
+  <ul>
+    <li><a routerLink="/panelconsultas">📅 Consultas</a></li>
+    <li><a routerLink="/panelusuarios">👥 Usuarios</a></li>
+    <li><a routerLink="/panelajustes">⚙️ Ajustes</a></li>
+  </ul>
+</div>
+
+
+
 <app-footer></app-footer>

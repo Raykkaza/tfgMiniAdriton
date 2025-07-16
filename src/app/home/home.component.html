@@ -45,8 +45,24 @@
 
 <section class="blog-section">
     <h2>Blog &amp; Artículos</h2>
-    <p>Muy pronto podrás leer contenido exclusivo sobre nutrición, salud y estilo de vida.</p>
-</section>
+
+    <!-- Rejilla con las 6 últimas entradas -->
+    <ng-container *ngIf="posts$ | async as posts; else loading">
+        <div class="cards">
+            <article class="card" *ngFor="let p of posts">
+                <a [routerLink]="['/blog', p.slug]">
+                    <img *ngIf="p.featured" [src]="p.featured" [alt]="p.title" loading="lazy">
+                    <h3 [innerHTML]="p.title"></h3>
+                </a>
+                <p>{{ p.excerpt }}</p>
+            </article>
+        </div>
+    </ng-container>
+
+    <ng-template #loading>
+        <p class="loading">Cargando entradas…</p>
+    </ng-template>
+    </section>
 
 <section class="testimonios-section">
     <h2>Lo que dicen mis clientes</h2>
@@ -76,18 +92,20 @@
             <h2 class="presentacion-title h4 fw-bold mb-3">¿Quién soy?</h2>
 
             <p class="presentacion-text flex-grow-1">
-                Soy <strong>Adrián</strong>, dietista especializado en nutrición deportiva, y mi
-                objetivo es ayudarte a alcanzar tu máximo rendimiento de forma segura y sostenible.
-                Con experiencia en atletas amateur y profesionales, combino ciencia, personalización
-                y compromiso para que la nutrición se convierta en tu mejor aliada.<br /><br />
-                Certificado en valoración antropométrica (ISAK I) y formado en biología,
-                fisiología y suplementación, te ofrezco planes adaptados a tus necesidades
-                reales. Porque cada atleta es único, y tu alimentación también debería serlo.
+                Hola,  <strong>soy Adrián</strong>, dietista especializado en nutrición deportiva, y quiero ayudarte a alcanzar tu máximo rendimiento de
+                forma segura, efectiva y sostenible en el tiempo.
+                
+                Cuento con experiencia trabajando tanto con deportistas de distinto nivel, y mi enfoque se basa en tres pilares:
+                ciencia, personalización y compromiso. Quiero que la nutrición se convierta en una herramienta real para potenciar tu
+                rendimiento y bienestar.<br /><br />
+                Estoy certificado en valoración antropométrica (ISAK I) y sigo formándome continuamente en biología, fisiología y
+                suplementación, lo que me permite ofrecerte planes nutricionales totalmente adaptados a tus necesidades, tu deporte y tu
+                estilo de vida. Porque cada atleta es único… y su alimentación también debería serlo.
             </p>
 
             <p class="mb-3">
-                Si estás listo para dar el primer paso hacia una vida más saludable,
-                ¡contáctame hoy mismo! Estoy aquí para apoyarte en cada paso del camino.
+                ¿Listo para dar el primer paso hacia tu mejor versión?
+                Contáctame hoy mismo. Estoy aquí para acompañarte en cada etapa del camino.
             </p>
 
             <a routerLink="/consultas" id="solicitar-consulta" class="btn btn-primary align-self-lg-end align-self-center">

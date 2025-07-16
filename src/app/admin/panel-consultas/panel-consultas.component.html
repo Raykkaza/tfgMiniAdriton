@@ -1,0 +1,85 @@
+<div class="admin-panel">
+    <h3 class="titulo">Panel de Consultas</h3>
+    <table id="consultasTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Título</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Estado</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cita of citas">
+                <td>{{ cita.app_id }}</td>
+                <td>{{ cita.username }}</td>
+                <td>{{ cita.app_title }}</td>
+                <td>{{ cita.app_start | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ cita.app_start | date: 'HH:mm' }} - {{ cita.app_end | date: 'HH:mm' }}</td>
+                <td>
+                    <ng-container *ngIf="cita.status === 0">
+                        <button (click)="aprobarCita(cita.app_id)">✅ Aprobar</button>
+                        <button (click)="denegarCita(cita.app_id)">❌ Denegar</button>
+                    </ng-container>
+                    <span *ngIf="cita.status === 1" style="color: green; font-weight: bold;">Aprobada</span>
+                </td>
+                <td>
+                    <button (click)="editarCita(cita)">✏️ Editar</button>
+                    <button (click)="eliminarCita(cita.app_id)">🗑️ Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+<!-- Modal de Edición -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarModalLabel">Editar Cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Título</label>
+                        <input type="text" class="form-control" [(ngModel)]="citaEditando.app_title" name="titulo">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" class="form-control" [(ngModel)]="citaEditando.fecha" name="fecha">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Hora de inicio</label>
+                        <select class="form-select" [(ngModel)]="citaEditando.horaInicio" name="horaInicio" (change)="onHoraInicioChange()">
+                            <option *ngFor="let hora of horasDisponibles.slice(0, horasDisponibles.length - 1)" [value]="hora">{{ hora }}
+                            </option>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label">Hora de fin</label>
+                        <select class="form-select" [(ngModel)]="citaEditando.horaFin" name="horaFin">
+                            <option *ngFor="let hora of horasFinDisponibles" [value]="hora">{{ hora }}</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" (click)="guardarCambios()" [disabled]="!citaEditando.horaFin">
+                    Guardar cambios
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>

@@ -136,7 +136,10 @@ section {
     margin: 2rem auto;
     border-radius: 1rem;
     /* refuerzo por si falla .rounded-4 de Bootstrap */
+    padding-bottom: 0px;
+    padding-top: 40px;
 }
+
 
 /* Imagen lateral */
 .presentacion-img {
@@ -147,6 +150,8 @@ section {
     overflow: hidden;
     border-radius: 1.25rem;
     /* esquinas interiores */
+    
+    
 }
 
 /* Imagen propiamente dicha */
@@ -169,6 +174,7 @@ section {
 
 /* Texto y título */
 .presentacion-title {
+    margin-top: -40px;
     letter-spacing: 0.3px;
 }
 
@@ -178,7 +184,7 @@ section {
 }
 
 #solicitar-consulta {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     margin-right: 260px;
     /* espacio entre el texto y el botón */
     width: 100%;
@@ -188,7 +194,7 @@ section {
     border: 0px;
 }
 #solicitar-consulta:hover {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     margin-right: 260px;
     /* espacio entre el texto y el botón */
     width: 100%;
@@ -198,3 +204,43 @@ section {
     border: 0px;
 }
 /* ───────────────────────────────────────────────────────────────────────────── */
+
+/* -------------- Blog expositor -------------- */
+.blog-section .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.blog-section .card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1rem;
+    transition: transform .2s ease;
+}
+
+.blog-section .card:hover {
+    transform: translateY(-4px);
+}
+
+.blog-section .card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.blog-section .card h3 {
+    font-size: 1.15rem;
+    margin: .75rem 0 .5rem;
+}
+
+.blog-section .card p {
+    font-size: .9rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+.blog-section .loading {
+    text-align: center;
+    margin-top: 2rem;
+}

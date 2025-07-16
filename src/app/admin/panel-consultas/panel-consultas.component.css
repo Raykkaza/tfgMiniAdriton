@@ -1,0 +1,24 @@
+/* Contenedor principal centrado */
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.titulo {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+
+.modal .form-label {
+    font-weight: bold;
+}
+
+.modal .form-control,
+.modal .form-select {
+    margin-bottom: 1rem;
+}

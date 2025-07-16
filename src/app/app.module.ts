@@ -15,6 +15,8 @@ import { SesionCaducadaComponent } from './sesion-caducada/sesion-caducada.compo
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ConsultasComponent } from './consultas/consultas.component';
+import { RegistroComponent } from './registro/registro.component';
+import { PanelConsultasComponent } from './admin/panel-consultas/panel-consultas.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { ConsultasComponent } from './consultas/consultas.component';
     HeaderComponent,
     FooterComponent,
     ConsultasComponent,
+    RegistroComponent,
+    PanelConsultasComponent,
   ],
   imports: [
     BrowserModule,

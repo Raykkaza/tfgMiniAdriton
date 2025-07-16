@@ -7,14 +7,21 @@ import { AuthGuard } from './guards/auth.guard';
 import { ActualizarPerfilComponent } from './actualizar-perfil/actualizar-perfil.component';
 import { SesionCaducadaComponent } from './sesion-caducada/sesion-caducada.component';
 import { ConsultasComponent } from './consultas/consultas.component';
+import { Subscription } from 'rxjs';
+import { SubscriptionGuard } from './guards/subscription.guard';
+import { RegistroComponent } from './registro/registro.component';
+import { PanelConsultasComponent } from './admin/panel-consultas/panel-consultas.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'registro', component: RegistroComponent },
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard]  },
   { path: 'actualizar-perfil', component: ActualizarPerfilComponent, canActivate: [AuthGuard] },
   { path: 'sesion-caducada', component: SesionCaducadaComponent  },
-  { path: 'consultas', component: ConsultasComponent, canActivate: [AuthGuard] },
+  { path: 'consultas', component: ConsultasComponent, canActivate: [SubscriptionGuard] },
+  { path: 'panelconsultas', component: PanelConsultasComponent, canActivate: [AdminGuard] },
   { path: '**', redirectTo: '' }
 ];
 

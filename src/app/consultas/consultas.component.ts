@@ -7,10 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
-import { AppointmentsService } from '../services/appointments.service'; // <-- NUEVO
+import { AppointmentsService } from '../services/appointments.service';
 
 registerLocaleData(localeEs);
-
 
 @Component({
   selector: 'app-consultas',
@@ -18,35 +17,89 @@ registerLocaleData(localeEs);
   styleUrl: './consultas.component.css',
   providers: [{ provide: LOCALE_ID, useValue: 'es' }]
 })
-export class ConsultasComponent implements AfterViewInit, OnInit { // <-- Añadido OnInit
+export class ConsultasComponent implements AfterViewInit, OnInit {
   @ViewChild('monthView', { static: false }) monthViewRef!: ElementRef;
+
+  userId: number = 0;
+  isAdmin: boolean = false;
+
+  citasVisibles: CalendarEvent[] = [];
+  events: CalendarEvent[] = [];
+
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
   selectedDate: Date | null = null;
 
   fechaMin = startOfDay(new Date());
   fechaMax = addMonths(this.fechaMin, 3);
 
-  constructor(private appointmentsService: AppointmentsService) { } // <-- NUEVO
+  mostrarFormulario = false;
+  nuevoNombre = '';
+  nuevaHora = '';
+  horasDisponibles: string[] = [];
+  tieneCitaPendiente: boolean = false;
 
-  ngOnInit(): void { // <-- NUEVO
+
+  constructor(private appointmentsService: AppointmentsService) { }
+
+  ngOnInit(): void {
     const token = localStorage.getItem('token');
     if (!token) {
       console.error('Token no encontrado en localStorage');
       return;
     }
 
-    this.appointmentsService.getAppointments(token).subscribe({
-      next: (citas) => {
-        this.events = citas;
+    this.appointmentsService.getUserRole(token).subscribe({
+      next: ({ userId, rol }) => {
+        this.userId = userId;
+        console.log('Rol del usuario:', rol, 'User ID:', userId);
+        
+        this.isAdmin = rol === 1;
+
+        this.appointmentsService.getAppointments(token).subscribe({
+          next: ({ events }) => {
+            const ahora = startOfDay(new Date());
+
+            const eventosFuturos = events.filter(e => new Date(e.start) >= ahora);
+
+            this.events = eventosFuturos.map(e => ({
+              ...e,
+              color: e.meta?.userId === userId
+                ? { primary: '#0044cc', secondary: '#cce0ff' }
+                : { primary: '#bde0fe', secondary: '#d1e8ff' }
+            }));
+
+            console.log('Eventos recibidos:', events);
+
+
+            this.citasVisibles = this.events.filter(e => {
+              if (this.isAdmin) return true;
+              return e.meta?.userId === this.userId;
+            });
+
+            console.log('Citas visibles:', this.citasVisibles);
+            
+
+
+            if (!this.isAdmin) {
+              const citasPendientes = this.events.filter(
+                e => e.meta?.userId === userId && e.meta?.status === 0
+              );
+              this.tieneCitaPendiente = citasPendientes.length > 0;
+            }
+          },
+          error: (err) => {
+            console.error('Error al cargar las citas:', err);
+          }
+        });
       },
       error: (err) => {
-        console.error('Error al cargar las citas:', err);
+        console.error('Error al obtener el rol:', err);
       }
     });
   }
+
 
   mesAnterior(): void {
     const anterior = subMonths(this.viewDate, 1);
@@ -70,14 +123,14 @@ export class ConsultasComponent implements AfterViewInit, OnInit { // <-- Añadi
     return differenceInCalendarMonths(this.fechaMax, this.viewDate) > 0;
   }
 
-  events: CalendarEvent[] = []; // <-- Inicializado vacío
-
-  // Devuelve las citas de un día concreto
   getEventsForDay(date: Date): CalendarEvent[] {
+    return this.citasVisibles.filter(event => isSameDay(event.start, date));
+  }
+
+  getAllEventsForDay(date: Date): CalendarEvent[] {
     return this.events.filter(event => isSameDay(event.start, date));
   }
 
-  // Al hacer clic en un día, se actualiza el día seleccionado
   onDayClicked(date: Date): void {
     const isSunday = date.getDay() === 0;
     const isPast = date < startOfDay(new Date());
@@ -87,15 +140,7 @@ export class ConsultasComponent implements AfterViewInit, OnInit { // <-- Añadi
     this.selectedDate = date;
   }
 
-  mostrarFormulario = false;
-  nuevoNombre = '';
-  nuevaHora = '';
-  horasDisponibles: string[] = [];
-
   abrirFormulario(): void {
-    console.log('Abriendo formulario…');
-    console.log(this.mostrarFormulario);
-
     if (!this.selectedDate) return;
 
     this.mostrarFormulario = true;
@@ -106,7 +151,7 @@ export class ConsultasComponent implements AfterViewInit, OnInit { // <-- Añadi
     const inicio = [1, 2, 3, 4, 5].includes(dia) ? 10 : 16;
     const fin = [1, 2, 3, 4, 5].includes(dia) ? 18 : 20;
 
-    const ocupadas = this.getEventsForDay(this.selectedDate).map(event =>
+    const ocupadas = this.getAllEventsForDay(this.selectedDate).map(event =>
       new Date(event.start).getHours()
     );
 
@@ -132,17 +177,61 @@ export class ConsultasComponent implements AfterViewInit, OnInit { // <-- Añadi
     const end = new Date(start);
     end.setHours(hora + 1);
 
-    this.events = [
-      ...this.events,
-      {
-        start,
-        end,
-        title: this.nuevoNombre
-      }
-    ];
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token no encontrado');
+      return;
+    }
 
-    this.cerrarFormulario();
+    const cita = {
+      app_title: this.nuevoNombre,
+      app_start: start.toISOString().slice(0, 19).replace('T', ' '), // formato MySQL
+      app_end: end.toISOString().slice(0, 19).replace('T', ' ')
+    };
+
+    this.appointmentsService.createAppointment(token, cita).subscribe({
+      next: () => {
+        console.log('Cita creada correctamente');
+
+        // Recargar citas desde el servidor
+        this.appointmentsService.getAppointments(token).subscribe({
+          next: ({ events }) => {
+            const ahora = startOfDay(new Date());
+
+            const eventosFuturos = events.filter(e => new Date(e.start) >= ahora);
+
+            this.events = eventosFuturos.map(e => ({
+              ...e,
+              color: e.meta?.userId === this.userId
+                ? { primary: '#0044cc', secondary: '#cce0ff' }
+                : { primary: '#bde0fe', secondary: '#d1e8ff' }
+            }));
+
+            this.citasVisibles = this.events.filter(e => {
+              if (this.isAdmin) return true;
+              return e.meta?.userId === this.userId;
+            });
+
+            if (!this.isAdmin) {
+              const citasPendientes = this.events.filter(
+                e => e.meta?.userId === this.userId && e.meta?.status === 0
+              );
+              this.tieneCitaPendiente = citasPendientes.length > 0;
+            }
+
+            this.cerrarFormulario();
+          },
+          error: err => {
+            console.error('Error al recargar citas:', err);
+          }
+        });
+      },
+      error: err => {
+        console.error('Error al crear cita:', err);
+      }
+    });
   }
+
 
   beforeMonthViewRender({ body }: { body: any[] }): void {
     body.forEach(day => {
@@ -161,9 +250,10 @@ export class ConsultasComponent implements AfterViewInit, OnInit { // <-- Añadi
       const fin = [1, 2, 3, 4, 5].includes(dia) ? 18 : 20;
       const horasTotales = fin - inicio;
 
-      const ocupadas = this.getEventsForDay(date).map(e => new Date(e.start).getHours());
+      const ocupadas = this.getAllEventsForDay(date).map(e => new Date(e.start).getHours());
 
       if (ocupadas.length === 0) {
+        // sin color
       } else if (ocupadas.length >= horasTotales) {
         day.backgroundColor = '#fddcdc';
       } else {
@@ -173,11 +263,7 @@ export class ConsultasComponent implements AfterViewInit, OnInit { // <-- Añadi
   }
 
   alternarFormulario(): void {
-    if (this.mostrarFormulario) {
-      this.cerrarFormulario();
-    } else {
-      this.abrirFormulario();
-    }
+    this.mostrarFormulario ? this.cerrarFormulario() : this.abrirFormulario();
   }
 
   ngAfterViewInit(): void {
@@ -198,5 +284,4 @@ export class ConsultasComponent implements AfterViewInit, OnInit { // <-- Añadi
       container.addEventListener('mouseleave', handleHover, true);
     }, 0);
   }
-
 }

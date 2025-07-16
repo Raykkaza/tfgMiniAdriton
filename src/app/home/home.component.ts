@@ -1,5 +1,6 @@
 import {  Component } from '@angular/core';
-
+import { Observable } from 'rxjs';
+import { BlogService, BlogPost } from '../services/blog.service';   
 
 
 @Component({
@@ -8,6 +9,13 @@ import {  Component } from '@angular/core';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+
+  ngOnInit(): void {
+    // Aquí puedes realizar cualquier inicialización necesaria
+    // Por ejemplo, cargar datos o configurar el componente
+  console.log('HomeComponent initialized');
+  
+  }
   /* -----------  Datos de la vista  ----------- */
 
 
@@ -39,7 +47,11 @@ export class HomeComponent {
   ];
   /* ------------------------------------------- */
 
- 
+  posts$!: Observable<BlogPost[]>;  
+
+  constructor(private blog: BlogService) {
+    this.posts$ = this.blog.getLatest();  
+  }
 
 
 

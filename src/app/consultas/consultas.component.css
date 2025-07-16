@@ -58,3 +58,22 @@ button {
 
 
 
+.alerta-cita-pendiente {
+    background-color: #fff4c2;
+    border-left: 6px solid #e0a800;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    color: #856404;
+    font-weight: 500;
+}
+
+.pendiente-cita {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    background-color: #fff8c2;
+    border-left: 4px solid #e6b800;
+    padding: 4px 8px;
+    color: #805500;
+    border-radius: 4px;
+}
