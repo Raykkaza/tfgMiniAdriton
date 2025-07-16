@@ -17,6 +17,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { ConsultasComponent } from './consultas/consultas.component';
 import { RegistroComponent } from './registro/registro.component';
 import { PanelConsultasComponent } from './admin/panel-consultas/panel-consultas.component';
+import { RefreshComponent } from './refresh/refresh.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { PanelConsultasComponent } from './admin/panel-consultas/panel-consultas
     ConsultasComponent,
     RegistroComponent,
     PanelConsultasComponent,
+    RefreshComponent,
   ],
   imports: [
     BrowserModule,

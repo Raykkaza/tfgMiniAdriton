@@ -13,10 +13,12 @@
 <!-- Panel admin lateral -->
 <div class="menu-admin" [class.abierto]="mostrarMenuAdmin" *ngIf="isAdmin">
   <button class="cerrar" (click)="mostrarMenuAdmin = false">✕</button>
+  <br>
+  <br>
   <ul>
     <li><a routerLink="/panelconsultas">📅 Consultas</a></li>
     <li><a routerLink="/panelusuarios">👥 Usuarios</a></li>
-    <li><a routerLink="/panelajustes">⚙️ Ajustes</a></li>
+    <li><a routerLink="/panelsubs">💸 Suscripciones</a></li>
   </ul>
 </div>
 

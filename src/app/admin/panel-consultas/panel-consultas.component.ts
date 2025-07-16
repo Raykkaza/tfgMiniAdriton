@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 declare var $: any;
 
@@ -19,10 +21,14 @@ export class PanelConsultasComponent implements OnInit {
 
   constructor(
     private appointmentsService: AppointmentsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    console.log("hola!");
+    
     this.cargarDatos();
   }
 
@@ -59,7 +65,7 @@ export class PanelConsultasComponent implements OnInit {
             setTimeout(() => {
               $('#consultasTable').DataTable({
                 language: {
-                  url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                  url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
                 },
                 pageLength: 10,
                 lengthChange: true,
@@ -96,6 +102,9 @@ export class PanelConsultasComponent implements OnInit {
     this.appointmentsService.deleteAppointment(token, app_id).subscribe(() => {
       this.citas = this.citas.filter(c => c.app_id !== app_id);
     });
+
+    this.reloadComponent(); // 🔄 recarga completa del componente
+
   }
 
   editarCita(cita: any): void {
@@ -159,7 +168,11 @@ export class PanelConsultasComponent implements OnInit {
       modal.hide();
 
       this.cargarDatos(); // actualiza todo
+      this.reloadComponent(); // 🔄 recarga completa del componente
+
     });
+
+
   }
 
   eliminarCita(app_id: number): void {
@@ -171,6 +184,15 @@ export class PanelConsultasComponent implements OnInit {
     this.citaEditando.horaFin = ''; // Limpiar selección anterior
   }
 
+  reloadComponent(): void {
+    const currentUrl = this.router.url;
+    setTimeout(() => {
+      this.router.navigateByUrl('/refresh', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
+      });
+    }, 150);
+
+  }
 
   
 }
