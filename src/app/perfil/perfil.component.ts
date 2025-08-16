@@ -98,6 +98,6 @@ export class PerfilComponent implements OnInit {
   }
 
   irAPasarela() {
-    window.location.href = 'https://miniadritonff.com/pago';
+    window.location.href = 'https://miniadritonff.com/suscripcion';
   }
 }

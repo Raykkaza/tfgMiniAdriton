@@ -13,12 +13,14 @@ import { RegistroComponent } from './registro/registro.component';
 import { PanelConsultasComponent } from './admin/panel-consultas/panel-consultas.component';
 import { AdminGuard } from './guards/admin.guard';
 import { RefreshComponent } from './refresh/refresh.component';
+import { SubsComponent } from './subs/subs.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'refresh', component: RefreshComponent, canActivate: [AdminGuard] },
   { path: 'registro', component: RegistroComponent },
+  { path: 'suscripcion', component: SubsComponent },
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard]  },
   { path: 'actualizar-perfil', component: ActualizarPerfilComponent, canActivate: [AuthGuard] },
   { path: 'sesion-caducada', component: SesionCaducadaComponent  },

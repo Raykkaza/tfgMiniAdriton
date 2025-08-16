@@ -4,10 +4,13 @@ import { CalendarEvent } from 'angular-calendar';
 import { CalendarView } from 'angular-calendar';
 import { startOfDay, addHours, isSameDay, addMonths, subMonths, differenceInCalendarMonths } from 'date-fns';
 import { FormsModule } from '@angular/forms';
+import { format } from 'date-fns';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { AppointmentsService } from '../services/appointments.service';
+import { NotificationService, Cita } from '../services/notification.service';
+
 
 registerLocaleData(localeEs);
 
@@ -22,6 +25,9 @@ export class ConsultasComponent implements AfterViewInit, OnInit {
 
   userId: number = 0;
   isAdmin: boolean = false;
+  userEmail = localStorage.getItem('email') || '';
+  userName = localStorage.getItem('username') || '';
+  adminEmail = 'adrianfernandezvento@gmail.com';
 
   citasVisibles: CalendarEvent[] = [];
   events: CalendarEvent[] = [];
@@ -41,7 +47,9 @@ export class ConsultasComponent implements AfterViewInit, OnInit {
   tieneCitaPendiente: boolean = false;
 
 
-  constructor(private appointmentsService: AppointmentsService) { }
+  constructor(private appointmentsService: AppointmentsService,
+    private notification: NotificationService 
+  ) { }
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
@@ -183,15 +191,36 @@ export class ConsultasComponent implements AfterViewInit, OnInit {
       return;
     }
 
+
     const cita = {
       app_title: this.nuevoNombre,
-      app_start: start.toISOString().slice(0, 19).replace('T', ' '), // formato MySQL
-      app_end: end.toISOString().slice(0, 19).replace('T', ' ')
+      app_start: format(start, 'yyyy-MM-dd HH:mm:ss'),
+      app_end: format(end, 'yyyy-MM-dd HH:mm:ss')
     };
 
     this.appointmentsService.createAppointment(token, cita).subscribe({
       next: () => {
         console.log('Cita creada correctamente');
+
+        const citaNotificacion: Cita = {
+
+          fechaISO: start.toISOString(),
+          usuarioEmail: this.userEmail ,
+          usuarioNombre: this.userName || undefined,
+          administradorEmail: this.adminEmail
+        };
+
+        // 1) Email al usuario: "hemos recibido tu solicitud"
+        this.notification.notifyUser('SOLICITADA', citaNotificacion).subscribe({
+          next: () => console.log('Email solicitud (usuario) enviado'),
+          error: e => console.error('Error email usuario', e)
+        });
+
+        // 2) Email al admin: "hay nueva solicitud"
+        this.notification.notifyAdminNuevaSolicitud(citaNotificacion)?.subscribe({
+          next: () => console.log('Email nueva solicitud (admin) enviado'),
+          error: e => console.error('Error email admin', e)
+        });
 
         // Recargar citas desde el servidor
         this.appointmentsService.getAppointments(token).subscribe({

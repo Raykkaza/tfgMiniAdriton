@@ -10,21 +10,50 @@
                 <div class="mb-3">
                     <label for="username" class="form-label">Nombre de usuario</label>
                     <input type="text" id="username" class="form-control" [(ngModel)]="username" name="username"
-                        required>
+                        required />
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Correo electrónico</label>
-                    <input type="email" id="email" class="form-control" [(ngModel)]="email" name="email" required>
+                    <input type="email" id="email" class="form-control" [(ngModel)]="email" name="email" required />
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
                     <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password"
-                        required>
+                        required (input)="onPasswordInput()" />
+
+                    <!-- Medidor de fortaleza -->
+                    <div class="password-strength mt-2">
+                        <div class="progress" role="progressbar" aria-label="Fortaleza de contraseña">
+                            <div class="progress-bar" [ngClass]="progressBarClass" [style.width.%]="strengthPercent">
+                            </div>
+                        </div>
+                        <small class="text-muted d-block mt-1">
+                            Fortaleza: <strong [ngClass]="progressTextClass">{{ strengthLabel }}</strong>
+                        </small>
+                        <ul class="password-rules small mt-2 mb-0">
+                            <li [class.ok]="hasMinLength">Mínimo 8 caracteres</li>
+                            <li [class.ok]="hasUpper">Mayúscula</li>
+                            <li [class.ok]="hasLower">Minúscula</li>
+                            <li [class.ok]="hasNumber">Número</li>
+                            <li [class.ok]="hasSpecial">Símbolo (!&#64;#...)</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+                    <input type="password" id="confirmPassword" class="form-control" [(ngModel)]="confirmPassword"
+                        name="confirmPassword" required (input)="onPasswordInput()" />
+                    <small *ngIf="confirmPassword && !passwordsMatch()" class="text-danger">
+                        Las contraseñas no coinciden.
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100" [disabled]="!canSubmit">
+                    Registrarse
+                </button>
             </form>
         </div>
     </div>

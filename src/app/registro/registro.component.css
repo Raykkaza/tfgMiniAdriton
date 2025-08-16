@@ -8,3 +8,39 @@ form {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+/* Visual de reglas de contraseña */
+.password-rules {
+    list-style: none;
+    padding-left: 0;
+}
+
+.password-rules li {
+    position: relative;
+    padding-left: 1.4rem;
+    line-height: 1.3rem;
+}
+
+.password-rules li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.4;
+}
+
+.password-rules li.ok {
+    color: #198754;
+    /* Bootstrap success */
+    font-weight: 500;
+}
+
+.password-rules li.ok::before {
+    content: "✓";
+    opacity: 1;
+}
+
+/* Barra de progreso */
+.progress {
+    height: 8px;
+}

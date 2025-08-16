@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AppointmentsService } from '../../services/appointments.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NotificationService, Cita } from '../../services/notification.service';
+
 
 
 declare var $: any;
@@ -15,15 +17,19 @@ export class PanelConsultasComponent implements OnInit {
   citas: any[] = [];
   citaEditando: any = {};
   usuarios: Record<number, string> = {};
+  usuariosEmail: Record<number, string> = {};
   horasDisponibles: string[] = [];
   horasFinDisponibles: string[] = [];
+  adminEmail = 'adrianfernandezvento@gmail.com';
 
 
   constructor(
     private appointmentsService: AppointmentsService,
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notification: NotificationService   
+
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +49,8 @@ export class PanelConsultasComponent implements OnInit {
     this.http.get<any[]>('https://miniadritonff.com/api/get_users.php', { headers }).subscribe({
       next: (res) => {
         res.forEach(u => this.usuarios[u.user_id] = u.username);
+        res.forEach(u => this.usuariosEmail[u.user_id] = u.email);
+
 
         this.appointmentsService.getAppointments(token).subscribe({
           next: (res) => {
@@ -89,23 +97,60 @@ export class PanelConsultasComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (!token) return;
 
+    // 1) Localiza la cita en memoria (para armar el email)
+    const cita = this.citas.find(c => c.app_id === app_id);
+    if (!cita) return;
+
+    // 2) Llama a tu backend para aprobar
     this.appointmentsService.approveAppointment(token, app_id).subscribe(() => {
-      const cita = this.citas.find(c => c.app_id === app_id);
-      if (cita) cita.status = 1;
+      // 3) Refresca estado en la UI
+      cita.status = 1;
+
+      // 4) Construye el objeto "Cita" para notificaciones
+      const citaNotif: Cita = {
+        fechaISO: new Date(cita.app_start).toISOString(),
+        usuarioEmail: this.usuariosEmail[cita.user_id],   // requiere que lo tengamos cargado
+        usuarioNombre: cita.username,
+        administradorEmail: this.adminEmail
+      };
+
+      // 5) Envía email al usuario: ACEPTADA
+      this.notification.notifyUser('ACEPTADA', citaNotif).subscribe({
+        next: () => console.log('Email ACEPTADA enviado'),
+        error: e => console.error('Error email ACEPTADA', e)
+      });
     });
   }
+
 
   denegarCita(app_id: number): void {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    this.appointmentsService.deleteAppointment(token, app_id).subscribe(() => {
-      this.citas = this.citas.filter(c => c.app_id !== app_id);
+    // 1) Copia de la cita para armar el email
+    const cita = this.citas.find(c => c.app_id === app_id);
+    if (!cita) return;
+
+    const citaNotif: Cita = {
+      fechaISO: new Date(cita.app_start).toISOString(),
+      usuarioEmail: this.usuariosEmail[cita.user_id],
+      usuarioNombre: cita.username,
+      administradorEmail: this.adminEmail
+    };
+
+    // 2) Envía email al usuario: RECHAZADA
+    this.notification.notifyUser('RECHAZADA', citaNotif).subscribe({
+      next: () => console.log('Email RECHAZADA enviado'),
+      error: e => console.error('Error email RECHAZADA', e)
     });
 
-    this.reloadComponent(); // 🔄 recarga completa del componente
-
+    // 3) Elimina en backend y refresca tabla
+    this.appointmentsService.deleteAppointment(token, app_id).subscribe(() => {
+      this.citas = this.citas.filter(c => c.app_id !== app_id);
+      this.reloadComponent(); // ya lo tenías
+    });
   }
+
 
   editarCita(cita: any): void {
     const inicio = new Date(cita.app_start);
