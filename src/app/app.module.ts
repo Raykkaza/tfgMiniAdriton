@@ -19,6 +19,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { PanelConsultasComponent } from './admin/panel-consultas/panel-consultas.component';
 import { RefreshComponent } from './refresh/refresh.component';
 import { SubsComponent } from './subs/subs.component';
+import { PanelUsuariosComponent } from './admin/panel-usuarios/panel-usuarios.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SubsComponent } from './subs/subs.component';
     PanelConsultasComponent,
     RefreshComponent,
     SubsComponent,
+    PanelUsuariosComponent,
   ],
   imports: [
     BrowserModule,

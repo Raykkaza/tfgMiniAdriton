@@ -1,1 +1,29 @@
-<p>subs works!</p>
+<section class="subs-hero">
+  <div class="subs-hero__inner">
+    <h1>Suscripciones</h1>
+    <p>Elige el plan que mejor encaja contigo.</p>
+  </div>
+</section>
+
+<section class="subs-grid">
+    <div class="plan-card" *ngFor="let plan of plans; let i = index">
+        <h3 class="plan-card__title">{{ plan.title }}</h3>
+
+        <!-- disparador -->
+        <figure class="plan-card__media" #media role="button" tabindex="0" (click)="toggle(i)"
+            (keydown.enter)="toggle(i)" (keydown.space)="toggle(i)" [attr.aria-expanded]="isOpen(i)">
+            <img [src]="plan.img" [alt]="plan.title" loading="lazy" />
+            <figcaption>{{ isOpen(i) ? 'Ocultar detalles' : 'Haz click para ver detalles' }}</figcaption>
+        </figure>
+
+        <!-- panel: overlay absoluto dentro de la card -->
+        <div class="plan-card__content overlay" #content [class.open]="isOpen(i)">
+            <div class="plan-card__content-inner">
+                <ul>
+                    <li *ngFor="let p of plan.points">{{ p }}</li>
+                </ul>
+                <p class="plan-card__price" style="font-size: 1.3em;">{{ plan.price }}</p>
+            </div>
+        </div>
+    </div>
+</section>

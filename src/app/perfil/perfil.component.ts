@@ -37,7 +37,7 @@ export class PerfilComponent implements OnInit {
         this.username = localStorage.getItem('username') || '';
         this.email = localStorage.getItem('email') || '';
         const img = localStorage.getItem('img_perfil');
-        this.imgPerfilUrl = img ? `https://miniadritonff.com/api/${img}` : 'https://miniadritonff.com/api/uploads/placeholder.png';
+        this.imgPerfilUrl = img ? `https://miniadritonff.com/api/${img}` : 'placeholder.png';
 
         this.suscrito = res.active_sub;
         this.fechaExpiracion = res.sub_expiration_date
@@ -98,6 +98,6 @@ export class PerfilComponent implements OnInit {
   }
 
   irAPasarela() {
-    window.location.href = 'https://miniadritonff.com/suscripcion';
+    window.location.href = 'https://miniadritonff.com/subs';
   }
 }

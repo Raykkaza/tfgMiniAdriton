@@ -16,6 +16,10 @@ export class RegistroComponent {
   mensaje = '';
   error = '';
 
+  // Señalización de duplicados
+  emailTaken = false;
+  usernameTaken = false;
+
   // Estado del medidor
   strengthScore = 0; // 0–5
   strengthPercent = 0; // 0–100
@@ -42,7 +46,6 @@ export class RegistroComponent {
     this.hasNumber = /[0-9]/.test(pwd);
     this.hasSpecial = /[^A-Za-z0-9]/.test(pwd);
 
-    // Score de 0 a 5 (una por cada regla)
     let score = 0;
     if (this.hasMinLength) score++;
     if (this.hasUpper) score++;
@@ -53,7 +56,6 @@ export class RegistroComponent {
     this.strengthScore = score;
     this.strengthPercent = (score / 5) * 100;
 
-    // Etiquetas y estilos estándar
     if (score <= 1) {
       this.strengthLabel = 'Muy débil';
       this.progressBarClass = 'bg-danger';
@@ -82,7 +84,6 @@ export class RegistroComponent {
   }
 
   isPasswordStrongEnough(): boolean {
-    // Política mínima razonable: al menos 4 de 5 reglas cumplidas
     return this.strengthScore >= 4;
   }
 
@@ -100,8 +101,9 @@ export class RegistroComponent {
   registrarUsuario(): void {
     this.mensaje = '';
     this.error = '';
+    this.emailTaken = false;
+    this.usernameTaken = false;
 
-    // Validaciones extra por seguridad
     if (!this.username || !this.email || !this.password || !this.confirmPassword) {
       this.error = 'Por favor, completa todos los campos.';
       return;
@@ -131,11 +133,26 @@ export class RegistroComponent {
             this.router.navigate(['/login']);
           }, 1500);
         } else {
-          this.error = 'Error al registrar el usuario.';
+          this.error = res.error || 'Error al registrar el usuario.';
         }
       },
       error: err => {
-        this.error = err.error?.error || 'Error inesperado al conectar con el servidor.';
+        if (err.status === 409) {
+          const code = err.error?.code;
+          if (code === 'EMAIL_TAKEN') {
+            this.emailTaken = true;
+            this.error = 'Ese email ya está registrado. Prueba con otro o inicia sesión.';
+          } else if (code === 'USERNAME_TAKEN') {
+            this.usernameTaken = true;
+            this.error = 'Ese nombre de usuario ya está en uso. Prueba con otro.';
+          } else {
+            this.error = err.error?.error || 'Ya existe un usuario con esos datos.';
+          }
+        } else if (err.status === 400) {
+          this.error = err.error?.error || 'Datos inválidos.';
+        } else {
+          this.error = err.error?.error || 'Error inesperado al conectar con el servidor.';
+        }
       }
     });
   }

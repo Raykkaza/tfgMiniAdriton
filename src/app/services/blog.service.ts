@@ -14,7 +14,7 @@ export interface BlogPost {
 
 @Injectable({ providedIn: 'root' })
 export class BlogService {
-  private readonly api = '/blog/wp-json/wp/v2/posts?per_page=6&_embed';
+  private readonly api = '/blog/wp-json/wp/v2/posts?per_page=4&_embed';
 
   constructor(private http: HttpClient) { }
 

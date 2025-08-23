@@ -46,11 +46,11 @@
 <section class="blog-section">
     <h2>Blog &amp; Artículos</h2>
 
-    <!-- Rejilla con las 6 últimas entradas -->
+    <!-- Rejilla con las 4 últimas entradas -->
     <ng-container *ngIf="posts$ | async as posts; else loading">
         <div class="cards">
             <article class="card" *ngFor="let p of posts">
-                <a [routerLink]="['/blog', p.slug]">
+                <a [href]="'/blog/' + p.slug" target="_blank" rel="noopener noreferrer">
                     <img *ngIf="p.featured" [src]="p.featured" [alt]="p.title" loading="lazy">
                     <h3 [innerHTML]="p.title"></h3>
                 </a>
@@ -62,7 +62,7 @@
     <ng-template #loading>
         <p class="loading">Cargando entradas…</p>
     </ng-template>
-    </section>
+</section>
 
 
 

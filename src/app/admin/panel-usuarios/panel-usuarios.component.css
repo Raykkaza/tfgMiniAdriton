@@ -1,0 +1,77 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    width: 100%;
+}
+
+.admin-panel {
+    width: 100%;
+    max-width: 1500px;
+}
+
+#usuariosTable {
+    width: 100% !important;
+    font-size: 1.1rem;
+}
+
+.titulo {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.badge-admin {
+    background: #e6f4ea;
+    color: #1e7e34;
+    padding: .15rem .5rem;
+    border-radius: .5rem;
+    font-weight: 600;
+}
+
+.badge-user {
+    background: #eef2ff;
+    color: #1d4ed8;
+    padding: .15rem .5rem;
+    border-radius: .5rem;
+    font-weight: 600;
+}
+
+.acciones button {
+    margin-right: .35rem;
+}
+
+
+.entry {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: .5rem 1rem;
+    align-items: baseline;
+    padding: .25rem 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.entry-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.entry-value {
+    color: #444;
+    word-break: break-word;
+}

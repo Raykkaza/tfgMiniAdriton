@@ -1,0 +1,146 @@
+<div class="admin-panel">
+    <h3 class="titulo">Panel de Usuarios</h3>
+
+    <table id="usuariosTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Suscripción</th>
+                <th>Vence</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let u of usuarios">
+                <td>{{ u.user_id }}</td>
+                <td>
+                    <div class="user-cell">
+                        <img *ngIf="u.img_perfil" [src]="'https://miniadritonff.com/api/' + u.img_perfil" alt="perfil" class="avatar">
+                        <span>{{ u.username }}</span>
+                    </div>
+                </td>
+                <td>{{ u.email }}</td>
+                <td>
+                    <span [class.badge-admin]="u.rol === 1" [class.badge-user]="u.rol !== 1">
+                        {{ u.rol === 1 ? 'Admin' : 'Usuario' }}
+                    </span>
+                </td>
+                <td>
+                    <span [style.color]="u.active_sub ? 'green' : 'crimson'">
+                        {{ u.active_sub ? 'Activa' : 'Inactiva' }}
+                    </span>
+                </td>
+                <td>{{ u.sub_expiration_date || '—' }}</td>
+                <td class="acciones">
+                    <button (click)="verDatos(u.user_id)">👁️ Ver datos</button>
+                    <button (click)="editarUsuario(u)">✏️ Editar</button>
+                    <button (click)="eliminarUsuario(u.user_id)">🗑️ Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal Ver Datos -->
+    <div class="modal fade" id="verDatosModal" tabindex="-1" aria-labelledby="verDatosLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="verDatosLabel">Datos adicionales del usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <ng-container *ngIf="usuarioExtra; else noExtra">
+                        <div *ngIf="extraEntries.length; else sinCampos">
+                            <div class="entry" *ngFor="let it of extraEntries">
+                                <div class="entry-label">{{ it.label }}</div>
+                                <div class="entry-value">{{ it.value }}</div>
+                            </div>
+                        </div>
+                        <ng-template #sinCampos>
+                            <p>Sin campos adicionales.</p>
+                        </ng-template>
+                    
+                        <hr />
+                        <p><strong>Comentarios:</strong></p>
+                        <p>{{ usuarioExtra.extra_comments || '—' }}</p>
+                    </ng-container>
+                    <ng-template #noExtra>
+                        <p>Sin datos.</p>
+                    </ng-template>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Usuario -->
+    <div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarUsuarioLabel">Editar Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Usuario</label>
+                            <input type="text" class="form-control" [(ngModel)]="usuarioEditando.username"
+                                name="username">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" [(ngModel)]="usuarioEditando.email" name="email">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Rol</label>
+                            <select class="form-select" [(ngModel)]="usuarioEditando.rol" name="rol">
+                                <option [value]="0">Usuario</option>
+                                <option [value]="1">Admin</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Imagen de perfil (ruta)</label>
+                            <input type="text" class="form-control" [(ngModel)]="usuarioEditando.img_perfil"
+                                name="img_perfil">
+                        </div>
+
+                        <hr />
+
+                        <h6>Suscripción</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" [(ngModel)]="editSubStatus" name="sub_status">
+                                <option [value]="0">Inactiva</option>
+                                <option [value]="1">Activa</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Fecha fin</label>
+                            <input type="date" class="form-control" [(ngModel)]="editSubEndDate" name="sub_end_date">
+                        </div>
+
+                        
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" (click)="guardarCambios()">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

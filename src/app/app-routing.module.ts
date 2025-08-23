@@ -14,6 +14,8 @@ import { PanelConsultasComponent } from './admin/panel-consultas/panel-consultas
 import { AdminGuard } from './guards/admin.guard';
 import { RefreshComponent } from './refresh/refresh.component';
 import { SubsComponent } from './subs/subs.component';
+import { PanelUsuariosComponent } from './admin/panel-usuarios/panel-usuarios.component';
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,8 +26,12 @@ const routes: Routes = [
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard]  },
   { path: 'actualizar-perfil', component: ActualizarPerfilComponent, canActivate: [AuthGuard] },
   { path: 'sesion-caducada', component: SesionCaducadaComponent  },
+  { path: 'subs', component: SubsComponent },
   { path: 'consultas', component: ConsultasComponent, canActivate: [SubscriptionGuard] },
   { path: 'panelconsultas', component: PanelConsultasComponent, canActivate: [AdminGuard] },
+  { path: 'panelusuarios', component: PanelUsuariosComponent, canActivate: [AdminGuard] },
+
+
   { path: '**', redirectTo: '' }
 ];
 

@@ -10,12 +10,19 @@
                 <div class="mb-3">
                     <label for="username" class="form-label">Nombre de usuario</label>
                     <input type="text" id="username" class="form-control" [(ngModel)]="username" name="username"
-                        required />
+                        required [class.is-invalid]="usernameTaken" />
+                    <div *ngIf="usernameTaken" class="invalid-feedback">
+                        Ese nombre de usuario ya está en uso.
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Correo electrónico</label>
-                    <input type="email" id="email" class="form-control" [(ngModel)]="email" name="email" required />
+                    <input type="email" id="email" class="form-control" [(ngModel)]="email" name="email" required
+                        [class.is-invalid]="emailTaken" />
+                    <div *ngIf="emailTaken" class="invalid-feedback">
+                        Ese email ya está registrado. Prueba con otro o inicia sesión.
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -37,7 +44,7 @@
                             <li [class.ok]="hasUpper">Mayúscula</li>
                             <li [class.ok]="hasLower">Minúscula</li>
                             <li [class.ok]="hasNumber">Número</li>
-                            <li [class.ok]="hasSpecial">Símbolo (!&#64;#...)</li>
+                            <li [class.ok]="hasSpecial">Símbolo (!$#...)</li>
                         </ul>
                     </div>
                 </div>

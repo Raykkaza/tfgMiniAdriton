@@ -1,0 +1,172 @@
+/* ====== HERO / BANNER ====== */
+.subs-hero {
+    background:
+        radial-gradient(1200px 400px at 10% -20%, #e6f5ff 0, transparent 60%),
+        radial-gradient(1200px 400px at 90% -20%, #eaf9f5 0, transparent 60%),
+        linear-gradient(180deg, #f9fbff 0%, #ffffff 100%);
+    padding: 3.5rem 1rem;
+    border-radius: 0 0 24px 24px;
+}
+
+.subs-hero__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.subs-hero h1 {
+    margin: 0 0 .5rem;
+    font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+    color: #0c4876;
+    font-weight: 700;
+}
+
+.subs-hero p {
+    margin: 0;
+    color: #4a4a4a;
+}
+
+/* ====== GRID ====== */
+.subs-grid {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    overflow: visible;
+    /* deja salir overlays */
+}
+
+@media (max-width: 992px) {
+    .subs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .subs-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ====== CARD ====== */
+.plan-card {
+    position: relative;
+    /* contexto para overlay interno */
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, .06);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+    overflow: visible;
+    /* importante: no ocultar overlay */
+}
+
+.plan-card__title {
+    margin: 1rem 1rem 0.5rem;
+    font-size: 1.15rem;
+    color: #0c4876;
+}
+
+/* ====== MEDIA (IMAGEN + CAPTION) ====== */
+.plan-card__media {
+    margin: 0 1rem 1rem;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    background: #f2f2f2;
+    cursor: pointer;
+    outline: none;
+}
+
+.plan-card__media:focus-visible {
+    outline: 2px solid #0c4876;
+    outline-offset: 3px;
+}
+
+.plan-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .35s ease;
+}
+
+@media (hover: hover) {
+    .plan-card__media:hover img {
+        transform: scale(1.04);
+    }
+}
+
+.plan-card__media figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: .5rem .75rem;
+    font-size: .85rem;
+    color: #fff;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .55) 100%);
+    text-align: center;
+}
+
+/* ====== PANEL EN OVERLAY (ACORDEÓN) ====== */
+/* El panel NO empuja el grid: está absolutamente posicionado dentro de la card */
+.plan-card__content.overlay {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    /* top lo ajusta el TS para quedar justo bajo la imagen */
+    background: #fff;
+    border-radius: 0 0 12px 12px;
+    border-top: 1px solid transparent;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12);
+    z-index: 2;
+
+    height: 0;
+    /* se anima (0 -> scrollHeight) */
+    overflow: clip;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition:
+        height 320ms cubic-bezier(.2, .7, .2, 1),
+        opacity 220ms ease,
+        transform 320ms cubic-bezier(.2, .7, .2, 1),
+        border-color 320ms ease,
+        box-shadow 320ms ease;
+}
+
+.plan-card__content.overlay.open {
+    opacity: 1;
+    transform: translateY(0);
+    border-top-color: #eaeaea;
+}
+
+.plan-card__content-inner {
+    padding: .75rem 1rem 1rem;
+}
+
+.plan-card__content-inner ul {
+    margin: 0 0 .5rem 1.1rem;
+    color: #3b3b3b;
+}
+
+.plan-card__content-inner li {
+    margin: .25rem 0;
+}
+
+.plan-card__price {
+    margin: .25rem 0 0;
+    font-weight: 700;
+    color: #0c4876;
+}
+
+/* ====== ACCESIBILIDAD / MOTION ====== */
+@media (prefers-reduced-motion: reduce) {
+
+    .plan-card__media img,
+    .plan-card__content.overlay {
+        transition: none;
+    }
+}
