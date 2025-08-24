@@ -1,0 +1,92 @@
+<div class="admin-panel">
+    <h3 class="titulo">Tipos de Suscripción</h3>
+
+    <div class="mb-3 d-flex gap-2">
+        <button class="btn btn-primary" (click)="abrirCrear()">➕ Nuevo tipo</button>
+    </div>
+
+    <div *ngIf="msg" class="alert alert-success">{{ msg }}</div>
+    <div *ngIf="err" class="alert alert-danger">{{ err }}</div>
+
+    <table id="subTypesTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio (€)</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let t of tipos">
+                <td>{{ t.sub_type_id }}</td>
+                <td>{{ t.sub_type }}</td>
+                <td>{{ t.sub_price }}</td>
+                <td class="acciones">
+                    <button (click)="abrirEditar(t)">✏️ Editar</button>
+                    <button (click)="eliminar(t.sub_type_id)">🗑️ Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal Crear -->
+    <div class="modal fade" id="crearTipoModal" tabindex="-1" aria-labelledby="crearTipoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearTipoLabel">Nuevo Tipo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" [(ngModel)]="createModel.sub_type"
+                                name="sub_type_new" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Precio (€)</label>
+                            <input type="number" class="form-control" [(ngModel)]="createModel.sub_price"
+                                name="sub_price_new" min="0" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" (click)="crear()">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar -->
+    <div class="modal fade" id="editarTipoModal" tabindex="-1" aria-labelledby="editarTipoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarTipoLabel">Editar Tipo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" [(ngModel)]="editModel.sub_type"
+                                name="sub_type_edit" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Precio (€)</label>
+                            <input type="number" class="form-control" [(ngModel)]="editModel.sub_price"
+                                name="sub_price_edit" min="0" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" (click)="guardarEdicion()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,6 +15,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { RefreshComponent } from './refresh/refresh.component';
 import { SubsComponent } from './subs/subs.component';
 import { PanelUsuariosComponent } from './admin/panel-usuarios/panel-usuarios.component';
+import { PanelSubTypesComponent } from './admin/panel-sub-types/panel-sub-types.component';
 
 
 const routes: Routes = [
@@ -30,8 +31,8 @@ const routes: Routes = [
   { path: 'consultas', component: ConsultasComponent, canActivate: [SubscriptionGuard] },
   { path: 'panelconsultas', component: PanelConsultasComponent, canActivate: [AdminGuard] },
   { path: 'panelusuarios', component: PanelUsuariosComponent, canActivate: [AdminGuard] },
-
-
+  { path: 'panelusuarios', component: PanelUsuariosComponent, canActivate: [AdminGuard] },
+  { path: 'panelsubtipos', component: PanelSubTypesComponent, canActivate: [AdminGuard] },
   { path: '**', redirectTo: '' }
 ];
 
