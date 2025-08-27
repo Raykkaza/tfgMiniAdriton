@@ -130,8 +130,7 @@ section {
 
 /* Contenedor principal */
 .presentacion-card {
-    background: #e4effb;
-    /* usa tu color primario */
+    background: linear-gradient(135deg, #deeefc, #f7f7f7);
     max-width: 1200px;
     margin: 2rem auto;
     border-radius: 1rem;

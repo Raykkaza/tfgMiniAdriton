@@ -1,8 +1,5 @@
 <section class="subs-hero">
-  <div class="subs-hero__inner">
-    <h1>Suscripciones</h1>
-    <p>Elige el plan que mejor encaja contigo.</p>
-  </div>
+    <img src="headerSubs.jpg" alt="Banner Suscripciones" class="subs-banner">
 </section>
 
 <section class="subs-grid">
@@ -23,7 +20,114 @@
                     <li *ngFor="let p of plan.points">{{ p }}</li>
                 </ul>
                 <p class="plan-card__price" style="font-size: 1.3em;">{{ plan.price }}</p>
+
+                <!-- NUEVO: botón de suscripción por plan -->
+                <button class="btn btn-primary" (click)="abrirCheckoutDesdePlan(i)">Suscribirme</button>
             </div>
         </div>
     </div>
 </section>
+
+<!-- ========= MODAL CHECKOUT ========= -->
+<div class="modal fade" id="subsModal" tabindex="-1" aria-labelledby="subsModalLabel" aria-hidden="true"
+    *ngIf="showModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content checkout">
+            <div class="modal-header">
+                <h5 class="modal-title" id="subsModalLabel">Suscripción - Pago por transferencia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"
+                    (click)="cerrarModal()"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row g-4">
+                    <!-- Formulario -->
+                    <div class="col-md-7">
+                        <form>
+                            <!-- Tipo -->
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de suscripción</label>
+                                <select class="form-select" [(ngModel)]="selectedTypeId" name="sub_type"
+                                    (change)="onChangeTipo()">
+                                    <option *ngFor="let t of subTypes" [ngValue]="t.sub_type_id">
+                                        {{ t.sub_type }} — {{ t.sub_price }} €/mes
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Periodo -->
+                        <div class="mb-3" *ngIf="!oneOffMode">
+                            <label class="form-label">Periodo</label>
+                            <div class="btn-group w-100">
+                                <input type="radio" class="btn-check" id="pMensual" name="periodo" autocomplete="off"
+                                    [checked]="selectedPeriodo==='Mensual'" (change)="selectedPeriodo='Mensual'; onChangePeriodo()">
+                                <label class="btn btn-outline-primary" for="pMensual">Mensual</label>
+                        
+                                <input type="radio" class="btn-check" id="pTrimestral" name="periodo" autocomplete="off"
+                                    [checked]="selectedPeriodo==='Trimestral'" (change)="selectedPeriodo='Trimestral'; onChangePeriodo()">
+                                <label class="btn btn-outline-primary" for="pTrimestral">Trimestral</label>
+                            </div>
+                        </div>
+
+                            <!-- Concepto -->
+                            <div class="mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Concepto
+                                    <span class="info-icon" tabindex="0"
+                                        title="Usa exactamente este concepto en tu transferencia bancaria.">i</span>
+                                </label>
+                                <input type="text" class="form-control" [value]="concepto" readonly>
+                            </div>
+
+                            <!-- Cuenta bancaria -->
+                            <div class="mb-3">
+                                <label class="form-label">Cuenta bancaria (transferencia)</label>
+                                <div class="iban-box">{{ ibanCliente }}</div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Resumen -->
+                    <div class="col-md-5">
+                        <div class="summary">
+                            <h6>Resumen</h6>
+                    
+                            <div class="row">
+                                <div class="col-6">Precio base</div>
+                                <div class="col-6 text-end">
+                                    {{ precioBase }} € <span *ngIf="!oneOffMode">/ mes</span>
+                                </div>
+                    
+                                <div class="col-6">Periodo</div>
+                                <div class="col-6 text-end">
+                                    <ng-container *ngIf="!oneOffMode; else pagoUnico">
+                                        {{ meses }} mes{{ meses>1?'es':'' }}
+                                    </ng-container>
+                                    <ng-template #pagoUnico>Pago único</ng-template>
+                                </div>
+                    
+                                <div class="col-6">Fecha de fin</div>
+                                <div class="col-6 text-end"><strong>{{ subEndDate }}</strong></div>
+                            </div>
+                    
+                            <hr>
+                            <div class="row total">
+                                <div class="col-6">Total</div>
+                                <div class="col-6 text-end">{{ total }} €</div>
+                            </div>
+                    
+                            <div *ngIf="okMsg" class="alert alert-success mt-3">{{ okMsg }}</div>
+                            <div *ngIf="errMsg" class="alert alert-danger mt-3">{{ errMsg }}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" (click)="cerrarModal()">Cancelar</button>
+                <button class="btn btn-primary" (click)="confirmar()">Confirmar solicitud</button>
+            </div>
+        </div>
+    </div>
+</div>

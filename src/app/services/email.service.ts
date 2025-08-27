@@ -6,13 +6,12 @@ import { catchError } from 'rxjs/operators';
 export interface EmailPayload {
   to: string;
   subject: string;
-  text?: string;   // cuerpo en texto plano
-  html?: string;   // opcional, si tu PHP lo admite
+  text?: string;   
+  html?: string;   
 }
 
 @Injectable({ providedIn: 'root' })
 export class EmailService {
-  // por ahora vamos directos al endpoint; luego si quieres lo movemos a environment
   private endpoint = 'https://miniadritonff.com/api/mail/sendEmail.php';
 
   constructor(private http: HttpClient) { }

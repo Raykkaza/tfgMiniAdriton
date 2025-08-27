@@ -156,8 +156,8 @@ export class ConsultasComponent implements AfterViewInit, OnInit {
     this.nuevaHora = '';
 
     const dia = this.selectedDate.getDay();
-    const inicio = [1, 2, 3, 4, 5].includes(dia) ? 10 : 16;
-    const fin = [1, 2, 3, 4, 5].includes(dia) ? 18 : 20;
+    const inicio = [1, 2, 3, 4, 5].includes(dia) ? 7 : 9;
+    const fin = [1, 2, 3, 4, 5].includes(dia) ? 21 : 13;
 
     const ocupadas = this.getAllEventsForDay(this.selectedDate).map(event =>
       new Date(event.start).getHours()
@@ -275,8 +275,8 @@ export class ConsultasComponent implements AfterViewInit, OnInit {
       }
 
       const dia = date.getDay();
-      const inicio = [1, 2, 3, 4, 5].includes(dia) ? 10 : 16;
-      const fin = [1, 2, 3, 4, 5].includes(dia) ? 18 : 20;
+      const inicio = [1, 2, 3, 4, 5].includes(dia) ? 7 : 9;
+      const fin = [1, 2, 3, 4, 5].includes(dia) ? 21 : 13;
       const horasTotales = fin - inicio;
 
       const ocupadas = this.getAllEventsForDay(date).map(e => new Date(e.start).getHours());

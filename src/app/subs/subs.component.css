@@ -1,35 +1,27 @@
 /* ====== HERO / BANNER ====== */
 .subs-hero {
-    background:
-        radial-gradient(1200px 400px at 10% -20%, #e6f5ff 0, transparent 60%),
-        radial-gradient(1200px 400px at 90% -20%, #eaf9f5 0, transparent 60%),
-        linear-gradient(180deg, #f9fbff 0%, #ffffff 100%);
-    padding: 3.5rem 1rem;
-    border-radius: 0 0 24px 24px;
-}
-
-.subs-hero__inner {
-    max-width: 1100px;
+    padding: 0;
+    /* quita márgenes internos */
     margin: 0 auto;
     text-align: center;
+    /* centra la imagen */
+    margin-bottom: 100px;
 }
 
-.subs-hero h1 {
-    margin: 0 0 .5rem;
-    font-size: clamp(1.8rem, 2.5vw, 2.4rem);
-    color: #0c4876;
-    font-weight: 700;
-}
-
-.subs-hero p {
-    margin: 0;
-    color: #4a4a4a;
+.subs-banner {
+    width: 80%;
+    /* ocupa todo el ancho */
+    height: auto;
+    /* mantiene proporción */
+    display: block;
+    border-radius: 8px;
+        margin: 0 auto;
 }
 
 /* ====== GRID ====== */
 .subs-grid {
-    max-width: 1100px;
     margin: 2rem auto;
+    margin-left: 1.5rem   ;
     padding: 0 1rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -60,12 +52,14 @@
     box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
     overflow: visible;
     /* importante: no ocultar overlay */
+    width: 500px;
 }
 
 .plan-card__title {
     margin: 1rem 1rem 0.5rem;
     font-size: 1.15rem;
     color: #0c4876;
+    text-align: center;
 }
 
 /* ====== MEDIA (IMAGEN + CAPTION) ====== */
@@ -169,4 +163,53 @@
     .plan-card__content.overlay {
         transition: none;
     }
+}
+
+/* Tarjetas (tú ya tienes estilos; esto no interfiere) */
+.plan-card .btn {
+    margin-top: .5rem;
+}
+
+/* Checkout modal */
+.checkout .modal-body {
+    background: #fafafa;
+}
+
+.summary {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.summary h6 {
+    font-weight: 700;
+    margin-bottom: .75rem;
+}
+
+.summary .total {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 12px;
+    line-height: 1;
+    background: #e9ecef;
+    color: #333;
+    cursor: help;
+}
+
+.iban-box {
+    background: #fff;
+    border: 1px dashed #bbb;
+    border-radius: 8px;
+    padding: .75rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
 }

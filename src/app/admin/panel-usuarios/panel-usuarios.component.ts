@@ -163,7 +163,6 @@ export class PanelUsuariosComponent implements OnInit {
       username: this.usuarioEditando.username,
       email: this.usuarioEditando.email,
       rol: this.usuarioEditando.rol,
-      img_perfil: this.usuarioEditando.img_perfil || null,
       // bloque suscripción
       sub_status: Number(this.editSubStatus),         // 0/1
       sub_end_date: this.editSubEndDate || null,      // YYYY-MM-DD o null

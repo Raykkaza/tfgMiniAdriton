@@ -1,7 +1,7 @@
 /* Refuerza el “branding” y la visibilidad del enlace activo */
 /* Logo responsivo */
 .brand-logo {
-    min-height: 150px;
+    min-height: 130px;
     width: auto; 
     filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .05)); 
 
