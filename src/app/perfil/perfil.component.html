@@ -47,7 +47,7 @@
                 <div class="pago-card" *ngFor="let pago of pagos">
                     <div class="pago-cabecera">
                         <span class="pago-cantidad">{{ pago.payment_ammount }} €</span>
-                        <span class="pago-fecha">{{ pago.payment_date }}</span>
+                        <span class="pago-fecha">{{ pago.payment_date | date:'dd/MM/yyyy' }}</span>
                     </div>
                     <div class="pago-concepto">{{ pago.payment_concept }}</div>
                 </div>

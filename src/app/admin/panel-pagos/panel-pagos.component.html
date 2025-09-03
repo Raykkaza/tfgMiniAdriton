@@ -1,0 +1,85 @@
+<div class="admin-panel">
+    <h3 class="titulo">Panel de Pagos</h3>
+
+    <div class="acciones">
+        <button class="btn btn-primary" (click)="nuevoPago()">➕ Nuevo pago</button>
+    </div>
+
+    <table id="pagosTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Importe (€)</th>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of pagos">
+                <td>{{ p.payment_id }}</td>
+                <td>{{ p.username || nombreUsuario(p.user_id) }}</td>
+                <td>{{ p.email || emailUsuario(p.user_id) }}</td>
+                <td>{{ p.payment_ammount | number:'1.2-2' }}</td>
+                <td>{{ p.payment_date | date:'dd/MM/yyyy' }}</td>
+                <td>{{ p.payment_concept }}</td>
+                <td>
+                    <button (click)="editarPago(p)">✏️ Editar</button>
+                    <button (click)="eliminarPago(p.payment_id)">🗑️ Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Crear/Editar Pago -->
+<div class="modal fade" id="editarPagoModal" tabindex="-1" aria-labelledby="editarPagoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarPagoModalLabel">{{ modoCrear ? 'Crear Pago' : 'Editar Pago' }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Usuario</label>
+                        <select class="form-select" [(ngModel)]="pagoEditando.user_id" name="user_id" required>
+                            <option [ngValue]="null" disabled>Selecciona usuario</option>
+                            <option *ngFor="let uid of (usuarios | keyvalue)" [ngValue]="uid.key">{{ uid.value }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Importe (€)</label>
+                        <input type="number" class="form-control" step="0.01" min="0" max="999.99"
+                            [(ngModel)]="pagoEditando.payment_ammount" name="payment_ammount" required>
+                        <small class="text-muted">Formato: 0.00 – 999.99</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" class="form-control" [(ngModel)]="pagoEditando.payment_date"
+                            name="payment_date" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Concepto</label>
+                        <input type="text" class="form-control" maxlength="150"
+                            [(ngModel)]="pagoEditando.payment_concept" name="payment_concept" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" (click)="guardarCambios()"
+                    [disabled]="!pagoEditando.user_id || !pagoEditando.payment_ammount || !pagoEditando.payment_concept">
+                    {{ modoCrear ? 'Crear' : 'Guardar cambios' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

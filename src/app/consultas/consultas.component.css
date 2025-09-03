@@ -77,3 +77,33 @@ button {
     color: #805500;
     border-radius: 4px;
 }
+
+/* Leyenda de la lista de eventos */
+.legend {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0 1rem;
+    font-size: 0.95rem;
+}
+
+.legend .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.4rem;
+}
+
+/* Colores:*/
+.dot-mine {
+    background: #0044cc;
+}
+
+/* azul oscuro = citas del usuario */
+.dot-other {
+    background: #bde0fe;
+}
+/* azul claro  = citas ocupadas    */
+

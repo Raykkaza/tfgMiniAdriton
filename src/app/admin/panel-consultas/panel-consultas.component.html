@@ -1,5 +1,11 @@
 <div class="admin-panel">
     <h3 class="titulo">Panel de Consultas</h3>
+
+    <!-- Botón crear -->
+    <div class="toolbar" style="margin: 0 0 12px 0;">
+        <button class="btn btn-success" (click)="abrirCrearCita()">➕ Nueva consulta</button>
+    </div>
+
     <table id="consultasTable" class="display" style="width:100%">
         <thead>
             <tr>
@@ -34,52 +40,116 @@
         </tbody>
     </table>
 
-<!-- Modal de Edición -->
-<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editarModalLabel">Editar Cita</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Título</label>
-                        <input type="text" class="form-control" [(ngModel)]="citaEditando.app_title" name="titulo">
-                    </div>
+    <!-- Modal de Edición -->
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarModalLabel">Editar Cita</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Título</label>
+                            <input type="text" class="form-control" [(ngModel)]="citaEditando.app_title" name="titulo">
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Fecha</label>
-                        <input type="date" class="form-control" [(ngModel)]="citaEditando.fecha" name="fecha">
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" class="form-control" [(ngModel)]="citaEditando.fecha" name="fecha">
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Hora de inicio</label>
-                        <select class="form-select" [(ngModel)]="citaEditando.horaInicio" name="horaInicio" (change)="onHoraInicioChange()">
-                            <option *ngFor="let hora of horasDisponibles.slice(0, horasDisponibles.length - 1)" [value]="hora">{{ hora }}
-                            </option>
-                        </select>
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Hora de inicio</label>
+                            <select class="form-select" [(ngModel)]="citaEditando.horaInicio" name="horaInicio"
+                                (change)="onHoraInicioChange()">
+                                <option *ngFor="let hora of horasDisponibles.slice(0, horasDisponibles.length - 1)"
+                                    [value]="hora">
+                                    {{ hora }}
+                                </option>
+                            </select>
+                        </div>
 
-
-                    <div class="mb-3">
-                        <label class="form-label">Hora de fin</label>
-                        <select class="form-select" [(ngModel)]="citaEditando.horaFin" name="horaFin">
-                            <option *ngFor="let hora of horasFinDisponibles" [value]="hora">{{ hora }}</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button class="btn btn-primary" (click)="guardarCambios()" [disabled]="!citaEditando.horaFin">
-                    Guardar cambios
-                </button>
+                        <div class="mb-3">
+                            <label class="form-label">Hora de fin</label>
+                            <select class="form-select" [(ngModel)]="citaEditando.horaFin" name="horaFin">
+                                <option *ngFor="let hora of horasFinDisponibles" [value]="hora">{{ hora }}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" (click)="guardarCambios()" [disabled]="!citaEditando.horaFin">
+                        Guardar cambios
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+    <!-- Modal de Creación -->
+    <div class="modal fade" id="crearModal" tabindex="-1" aria-labelledby="crearModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearModalLabel">Nueva Cita</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Usuario</label>
+                            <!-- recorremos el Record con keyvalue -->
+                            <select class="form-select" [(ngModel)]="nuevaCita.user_id" name="user_id">
+                                <option [ngValue]="null" disabled>Selecciona un usuario…</option>
+                                <option *ngFor="let u of usuarios | keyvalue" [ngValue]="u.key">
+                                    {{ u.value }} (ID {{ u.key }})
+                                </option>
+                            </select>
+                        </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Título</label>
+                            <input type="text" class="form-control" [(ngModel)]="nuevaCita.app_title"
+                                name="tituloNueva">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" class="form-control" [(ngModel)]="nuevaCita.fecha" name="fechaNueva"
+                                (change)="onFechaNuevaChange()">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Hora de inicio</label>
+                            <select class="form-select" [(ngModel)]="nuevaCita.horaInicio" name="horaInicioNueva"
+                                (change)="onHoraInicioNuevaChange()">
+                                <option
+                                    *ngFor="let hora of horasDisponiblesNueva.slice(0, horasDisponiblesNueva.length - 1)"
+                                    [value]="hora">
+                                    {{ hora }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Hora de fin</label>
+                            <select class="form-select" [(ngModel)]="nuevaCita.horaFin" name="horaFinNueva">
+                                <option *ngFor="let hora of horasFinDisponiblesNueva" [value]="hora">{{ hora }}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" (click)="crearCita()"
+                        [disabled]="!nuevaCita.user_id || !nuevaCita.app_title || !nuevaCita.fecha || !nuevaCita.horaInicio || !nuevaCita.horaFin">
+                        Crear cita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

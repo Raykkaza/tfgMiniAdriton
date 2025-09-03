@@ -1,1 +1,126 @@
-<p>panel-subs works!</p>
+<div class="admin-panel">
+    <h3 class="titulo">Panel de Suscripciones</h3>
+
+    <div class="acciones">
+        <button class="btn btn-primary" (click)="nuevaSub()">➕ Nueva suscripción</button>
+    </div>
+
+    <table id="subsTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Estado</th>
+                <th>Fin</th>
+                <th>Tipo</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let s of subs">
+                <td>{{ s.sub_id }}</td>
+                <td>{{ s.username || nombreUsuario(s.user_id) }}</td>
+                <td>{{ s.email || emailUsuario(s.user_id) }}</td>
+                <td>
+                    <span [ngClass]="estadoBadge(s.sub_status).cls">
+                        {{ estadoBadge(s.sub_status).label }}
+                    </span>
+                </td>
+                <td>{{ s.sub_end_date | date:'dd/MM/yyyy' }}</td>
+                <td>{{ s.sub_type || (s.sub_type_id != null ? ('Tipo #' + s.sub_type_id) : '—') }}</td>
+                <td>
+                    <ng-container *ngIf="s.sub_status === 0">
+                        <button (click)="aprobarSub(s.sub_id)">✅ Aprobar</button>
+                        <button (click)="denegarSub(s.sub_id)">❌ Denegar</button>
+                    </ng-container>
+                    <span *ngIf="s.sub_status === 1" style="color: green; font-weight: bold;">Activa</span>
+                    <button (click)="editarSub(s)">✏️ Editar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Crear/Editar Suscripción -->
+<div class="modal fade" id="editarSubModal" tabindex="-1" aria-labelledby="editarSubModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarSubModalLabel">
+                    {{ modoCrear ? 'Crear Suscripción ' : 'Editar Suscripción' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <!-- Usuario solo en modo crear -->
+                    <div class="mb-3" *ngIf="modoCrear; else usuarioReadOnly">
+                        <label class="form-label">Usuario</label>
+                        <select class="form-select" [(ngModel)]="subEditando.user_id" name="user_id" required>
+                            <option [ngValue]="null" disabled>Selecciona usuario</option>
+                            <option *ngFor="let uid of (usuarios | keyvalue)" [ngValue]="uid.key">{{ uid.value }}
+                            </option>
+                        </select>
+                    </div>
+                    <ng-template #usuarioReadOnly>
+                        <div class="mb-3">
+                            <label class="form-label">Usuario</label>
+                            <input class="form-control" [value]="nombreUsuario(subEditando.user_id)" disabled>
+                        </div>
+                    </ng-template>
+
+                    <div class="mb-3">
+                        <label class="form-label">Fecha fin</label>
+                        <input type="date" class="form-control" [(ngModel)]="subEditando.sub_end_date"
+                            name="sub_end_date" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <select class="form-select" [(ngModel)]="subEditando.sub_type_id" name="sub_type_id">
+                            <option [ngValue]="null">— Sin tipo —</option>
+                            <option *ngFor="let t of subTypes" [ngValue]="t.id">
+                                {{ t.label }} <ng-container *ngIf="t.price != null"> ({{ t.price | number:'1.2-2'
+                                    }}€)</ng-container>
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" [(ngModel)]="subEditando.sub_status" name="sub_status">
+                            <option [ngValue]="0">Pendiente</option>
+                            <option [ngValue]="1">Activa</option>
+                        </select>
+                        <small class="text-muted">
+                            Si está activa, se desactivan otras activas vigentes del usuario (según backend).
+                        </small>
+                    </div>
+
+                    <!-- Resumen -->
+                    <div class="resumen">
+                        <div>
+                            <strong>Precio estimado:</strong>
+                            {{ getTypePrice(subEditando.sub_type_id) | number:'1.2-2' }} €
+                        </div>
+                        <div>
+                            <strong>Concepto sugerido:</strong>
+                            <code>{{ previewConcept() }}</code>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" (click)="guardarCambios()"
+                    [disabled]="modoCrear && (!subEditando.user_id || !subEditando.sub_end_date)">
+                    {{ modoCrear ? 'Crear' : 'Guardar cambios' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

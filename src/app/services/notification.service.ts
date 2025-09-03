@@ -154,12 +154,12 @@ export class NotificationService {
     if (kind === 'SUB_ACEPTADA') {
       const subject = `Tu suscripción ha sido aceptada`;
       const text =
-        `¡Buenas${nombre}! Tu suscripción "${s.subTypeNombre}" (${s.periodoLabel}) ha sido ACEPTADA.\n` +
+        `¡Buenas${nombre}! Tu suscripción "${s.subTypeNombre}"  ha sido ACEPTADA.\n` +
         `Importe: ${total}.\n` +
         `Vigente hasta: ${fin}.\n\n` +
         `Gracias por tu confianza.\nMiniAdritonFF`;
       const html =
-        `<p>¡Buenas${nombre}! Tu suscripción <strong>"${s.subTypeNombre}"</strong> (${s.periodoLabel}) ha sido ` +
+        `<p>¡Buenas${nombre}! Tu suscripción <strong>"${s.subTypeNombre}"</strong> ha sido ` +
         `<span style="color:green;font-weight:700">ACEPTADA</span>.</p>
          <ul>
            <li><strong>Importe:</strong> ${total}</li>
@@ -172,10 +172,10 @@ export class NotificationService {
     // SUB_RECHAZADA
     const subject = `Tu suscripción ha sido rechazada`;
     const text =
-      `Hola${nombre}, tu suscripción "${s.subTypeNombre}" (${s.periodoLabel}) ha sido RECHAZADA.\n` +
+      `Hola${nombre}, tu suscripción "${s.subTypeNombre}" ha sido RECHAZADA.\n` +
       `Seguramente se deba a un problema con tu transferencia, revisa los datos y vuelve a intentarlo o contacta con soporte.\n\nMiniAdritonFF`;
     const html =
-      `<p>Hola${nombre}, tu suscripción <strong>"${s.subTypeNombre}"</strong> (${s.periodoLabel}) ha sido ` +
+      `<p>Hola${nombre}, tu suscripción <strong>"${s.subTypeNombre}"</strong> ha sido ` +
       `<span style="color:#b00020;font-weight:700">RECHAZADA</span>.</p>
        <p>Seguramente se deba a un problema con tu transferencia, revisa los datos y vuelve a intentarlo o contacta con soporte.</p>
        <p>MiniAdritonFF</p>`;

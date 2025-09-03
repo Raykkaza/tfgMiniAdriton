@@ -11,7 +11,7 @@ type Periodo = 'Mensual' | 'Trimestral';
   styleUrls: ['./subs.component.css']
 })
 export class SubsComponent implements OnInit {
-  // === TUS PLANES (sin tocar) ===
+  // === PLANES ===
   plans = [
     {
       title: 'Plan Básico', img: 'basicPlan.jpg',
@@ -60,7 +60,7 @@ export class SubsComponent implements OnInit {
   errMsg = '';
 
   // IBAN placeholder
-  ibanCliente = 'ES00 0000 0000 0000 0000 0000 (IBAN pendiente)';
+  ibanCliente = 'ES96 2100 7396 2113 0030 6258';
 
   // Email admin (ajústalo si quieres)
   adminEmail = 'adrianfernandezvento@gmail.com';

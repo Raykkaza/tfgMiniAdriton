@@ -14,6 +14,13 @@
 
     <!-- Columna derecha: Lista de citas -->
     <div class="event-list">
+        <div class="legend" *ngIf="!isAdmin">
+            <span class="dot dot-mine" aria-hidden="true"></span>
+            <span class="legend-text">Tus citas</span>
+        
+            <span class="dot dot-other" aria-hidden="true"></span>
+            <span class="legend-text">Citas ocupadas</span>
+        </div>
         <h3 *ngIf="selectedDate">Citas para {{ selectedDate | date: 'fullDate' }}</h3>
 
         <ul *ngIf="selectedDate">

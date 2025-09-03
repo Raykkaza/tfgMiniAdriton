@@ -36,7 +36,7 @@ export class SubscriptionGuard implements CanActivate {
             catchError(() => {
                 console.log('SubscriptionGuard: User does not have an active subscription');
 
-                this.router.navigate(['/suscripcion']);
+                this.router.navigate(['/subs']);
                 return of(false);
             })
         );

@@ -11,7 +11,7 @@
     max-width: 1500px;
 }
 
-#subsTable {
+#pagosTable {
     width: 100% !important;
     font-size: 1.1rem;
 }
@@ -29,30 +29,11 @@
     margin-bottom: 1rem;
 }
 
-.estado {
-    display: inline-block;
-    font-weight: 700;
-    padding: .2rem .5rem;
-    border-radius: .4rem;
+.modal .form-label {
+    font-weight: bold;
 }
 
-.estado--ok {
-    color: #0a7a00;
-    background: #e7f8e6;
-}
-
-.estado--pend {
-    color: #9a6700;
-    background: #fff4cc;
-}
-
-.resumen {
-    background: #f7f7f7;
-    border-radius: .5rem;
-    padding: .75rem;
-    font-size: .95rem;
-}
-
-.resumen code {
-    user-select: all;
+.modal .form-control,
+.modal .form-select {
+    margin-bottom: 1rem;
 }

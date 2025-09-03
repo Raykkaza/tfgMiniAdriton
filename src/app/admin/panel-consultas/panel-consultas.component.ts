@@ -4,8 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService, Cita } from '../../services/notification.service';
 
-
-
 declare var $: any;
 
 @Component({
@@ -22,19 +20,28 @@ export class PanelConsultasComponent implements OnInit {
   horasFinDisponibles: string[] = [];
   adminEmail = 'adrianfernandezvento@gmail.com';
 
+  // === CREAR CITA ===
+  nuevaCita: {
+    user_id: number | null,
+    app_title: string,
+    fecha: string,        // YYYY-MM-DD
+    horaInicio: string,   // HH:mm
+    horaFin: string       // HH:mm
+  } = { user_id: null, app_title: '', fecha: '', horaInicio: '', horaFin: '' };
+
+  horasDisponiblesNueva: string[] = [];
+  horasFinDisponiblesNueva: string[] = [];
 
   constructor(
     private appointmentsService: AppointmentsService,
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private notification: NotificationService   
-
+    private notification: NotificationService
   ) { }
 
   ngOnInit(): void {
     console.log("hola!");
-    
     this.cargarDatos();
   }
 
@@ -50,7 +57,6 @@ export class PanelConsultasComponent implements OnInit {
       next: (res) => {
         res.forEach(u => this.usuarios[u.user_id] = u.username);
         res.forEach(u => this.usuariosEmail[u.user_id] = u.email);
-
 
         this.appointmentsService.getAppointments(token).subscribe({
           next: (res) => {
@@ -88,11 +94,6 @@ export class PanelConsultasComponent implements OnInit {
     });
   }
 
-
-
-
-
-
   aprobarCita(app_id: number): void {
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -122,7 +123,6 @@ export class PanelConsultasComponent implements OnInit {
     });
   }
 
-
   denegarCita(app_id: number): void {
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -150,7 +150,6 @@ export class PanelConsultasComponent implements OnInit {
       this.reloadComponent(); // ya lo tenías
     });
   }
-
 
   editarCita(cita: any): void {
     const inicio = new Date(cita.app_start);
@@ -214,15 +213,13 @@ export class PanelConsultasComponent implements OnInit {
 
       this.cargarDatos(); // actualiza todo
       this.reloadComponent(); // 🔄 recarga completa del componente
-
     });
-
-
   }
 
   eliminarCita(app_id: number): void {
     this.denegarCita(app_id);
   }
+
   onHoraInicioChange(): void {
     const idx = this.horasDisponibles.indexOf(this.citaEditando.horaInicio);
     this.horasFinDisponibles = this.horasDisponibles.slice(idx + 1);
@@ -236,8 +233,104 @@ export class PanelConsultasComponent implements OnInit {
         this.router.navigate([currentUrl]);
       });
     }, 150);
-
   }
 
-  
+  // ==============================
+  //        NUEVA CITA (ADD)
+  // ==============================
+
+  abrirCrearCita(): void {
+    // reset del formulario
+    this.nuevaCita = { user_id: null, app_title: '', fecha: '', horaInicio: '', horaFin: '' };
+    this.horasDisponiblesNueva = this.generarHorasBase();
+    this.horasFinDisponiblesNueva = [];
+
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('crearModal'));
+    modal.show();
+  }
+
+  onFechaNuevaChange(): void {
+    if (!this.nuevaCita.fecha) {
+      this.horasDisponiblesNueva = this.generarHorasBase();
+      this.horasFinDisponiblesNueva = [];
+      return;
+    }
+
+    // horas ocupadas en esa fecha (usamos split('T')[0] para comparar la fecha)
+    const ocupadas = this.citas
+      .filter(c => {
+        const fechaCita = new Date(c.app_start).toISOString().split('T')[0];
+        return fechaCita === this.nuevaCita.fecha;
+      })
+      .flatMap(c => {
+        const start = new Date(c.app_start);
+        const end = new Date(c.app_end);
+        const bloques: string[] = [];
+        while (start < end) {
+          const h = start.toTimeString().slice(0, 5);
+          bloques.push(h);
+          start.setMinutes(start.getMinutes() + 30);
+        }
+        return bloques;
+      });
+
+    const base = this.generarHorasBase();
+    this.horasDisponiblesNueva = base.filter(h => !ocupadas.includes(h));
+
+    // limpiar selección y recomputar fin
+    this.nuevaCita.horaInicio = '';
+    this.nuevaCita.horaFin = '';
+    this.horasFinDisponiblesNueva = [];
+  }
+
+  onHoraInicioNuevaChange(): void {
+    const idx = this.horasDisponiblesNueva.indexOf(this.nuevaCita.horaInicio);
+    this.horasFinDisponiblesNueva = this.horasDisponiblesNueva.slice(idx + 1);
+    this.nuevaCita.horaFin = '';
+  }
+
+  private generarHorasBase(): string[] {
+    const horas: string[] = [];
+    for (let h = 7; h < 22; h++) {
+      horas.push(`${h.toString().padStart(2, '0')}:00`);
+    }
+    return horas;
+  }
+
+  crearCita(): void {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const { user_id, app_title, fecha, horaInicio, horaFin } = this.nuevaCita;
+    const app_start = `${fecha}T${horaInicio}:00`;
+    const app_end = `${fecha}T${horaFin}:00`;
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const body = {
+      user_id,
+      app_title,
+      app_start,
+      app_end
+    };
+
+    this.http.post('https://miniadritonff.com/api/create_appointment.php', body, { headers })
+      .subscribe({
+        next: () => {
+          const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById('crearModal'));
+          modal?.hide();
+
+          // recarga datos y DataTable
+          this.cargarDatos();
+          this.reloadComponent(); // ya lo tienes implementado
+        },
+        error: (e) => {
+          console.error('Error al crear la cita', e);
+          alert('No se pudo crear la cita. Revisa los datos y vuelve a intentarlo.');
+        }
+      });
+  }
 }

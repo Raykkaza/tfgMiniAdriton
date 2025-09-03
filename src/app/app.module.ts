@@ -22,6 +22,7 @@ import { SubsComponent } from './subs/subs.component';
 import { PanelUsuariosComponent } from './admin/panel-usuarios/panel-usuarios.component';
 import { PanelSubsComponent } from './admin/panel-subs/panel-subs.component';
 import { PanelSubTypesComponent } from './admin/panel-sub-types/panel-sub-types.component';
+import { PanelPagosComponent } from './admin/panel-pagos/panel-pagos.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PanelSubTypesComponent } from './admin/panel-sub-types/panel-sub-types.
     PanelUsuariosComponent,
     PanelSubsComponent,
     PanelSubTypesComponent,
+    PanelPagosComponent,
   ],
   imports: [
     BrowserModule,
