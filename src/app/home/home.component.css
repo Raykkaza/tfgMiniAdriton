@@ -14,7 +14,6 @@ section {
 /* Hero Carousel ─ mantiene la altura y el radio de borde del hero anterior */
 .hero-carousel {
     padding: 0;
-    /* el padding lo gestiona ya la sección padre */
     margin-top: 1rem;
 }
 
@@ -29,10 +28,9 @@ section {
 
 .hero-carousel img {
     object-fit: cover;
-    /* recorte elegante, sin deformar */
 }
 
-/* Flechas: ocultas hasta que el usuario pase el ratón ------------------- */
+/* Flechas */
 .carousel-control-prev,
 .carousel-control-next {
     opacity: 0;
@@ -134,7 +132,6 @@ section {
     max-width: 1200px;
     margin: 2rem auto;
     border-radius: 1rem;
-    /* refuerzo por si falla .rounded-4 de Bootstrap */
     padding-bottom: 0px;
     padding-top: 40px;
 }

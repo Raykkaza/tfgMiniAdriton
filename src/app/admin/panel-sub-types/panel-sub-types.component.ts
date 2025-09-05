@@ -180,7 +180,7 @@ export class PanelSubTypesComponent implements OnInit {
       });
   }
 
-  // Recarga suave (mismo patrón que usaste en consultas/usuarios)
+  // Recarga el componente actual
   reloadComponent(): void {
     const currentUrl = this.router.url;
     setTimeout(() => {

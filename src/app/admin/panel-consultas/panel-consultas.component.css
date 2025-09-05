@@ -11,14 +11,12 @@
     width: 100%;
     /* que se adapte al ancho */
     max-width: 1500px;
-    /* ajusta a tu gusto (más ancho = tabla más grande) */
 }
 
 #consultasTable {
     width: 100% !important;
     /* fuerza DataTable a ocupar todo el ancho */
     font-size: 1.1rem;
-    /* opcional: texto un pelín más pequeño para mayor densidad */
 }
 
 .titulo {

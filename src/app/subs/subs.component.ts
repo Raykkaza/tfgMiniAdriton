@@ -25,10 +25,30 @@ export class SubsComponent implements OnInit {
     },
     {
       title: 'Antropometría', img: 'antropoPlan.jpg',
-      points: ['Medición de composición corporal.', 'Informe PDF con anatomía detallada.', 'Descuento a grupos (+3 personas).',],
+      points: ['Medición de composición corporal.', 'Informe PDF con anatomía detallada.', 'Mediciones en el centro o a domicilio.'],
       price: '50€/sesión'
     }
   ];
+
+  // ====== Opiniones ======
+  opiniones = [
+    {
+      img: 'opinion1.jpeg',
+      nombre: 'Jordi Velasco',
+      texto: 'El plan básico me ayudó a organizarme y ver resultados sin agobios. La comunicación fue súper clara y cercana, y pude empezar a llegar a mis objetivos sin ajustarme a dietas irreales. Adrián se centró en la educación nutricional, consiguiendo que aprendiera a comer en lugar de a seguir una guía.'
+    },
+    {
+      img: 'opinion2.jpg',
+      nombre: 'Hugo Martín',
+      texto: 'Con el Plan Atleta mejoré marcas y recuperación, además de tener un conocimiento real de por qué mis entrenamientos no funcionaban antes. El seguimiento fue muy cercano y profesional, y no tuvo problema en hacer sesiones adicionales antes de mis competiciones.'
+    },
+    {
+      img: 'opinion3.jpg',
+      nombre: 'María Herrera',
+      texto: 'La antropometría me dio una imagen real de mi punto de partida. El informe me sirvió para planificar objetivos a futuro, y el trato de Adrián fue profesional e impecable. Mis resultados llegaron en minutos y sin duda repetiré en un futuro para comparar mis progresos.'
+    }
+  ];
+
 
   oneOffMode = false; // true si el tipo es Antropometría
 
@@ -59,10 +79,10 @@ export class SubsComponent implements OnInit {
   okMsg = '';
   errMsg = '';
 
-  // IBAN placeholder
+  // IBAN 
   ibanCliente = 'ES96 2100 7396 2113 0030 6258';
 
-  // Email admin (ajústalo si quieres)
+  // Email admin 
   adminEmail = 'adrianfernandezvento@gmail.com';
 
   constructor(private http: HttpClient, private notification: NotificationService) { }
@@ -137,7 +157,7 @@ export class SubsComponent implements OnInit {
     el.addEventListener('transitionend', onEnd);
   }
 
-  // ======= NUEVO: helpers de checkout =======
+  // ======= helpers de checkout =======
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('token') || '';
     return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
@@ -148,7 +168,7 @@ export class SubsComponent implements OnInit {
   }
 
   private userEmailLS(): string {
-    return localStorage.getItem('email') || ''; // ajusta la clave si guardas el email con otro nombre
+    return localStorage.getItem('email') || ''; 
   }
 
   private userIdLS(): number | null {
@@ -166,7 +186,7 @@ export class SubsComponent implements OnInit {
       });
   }
 
-  // map plan index -> nombre en sub_types (sin tildes)
+  // map plan index -> nombre en sub_types 
   private planIndexToTypeName(i: number): string {
     return i === 0 ? 'Basica' : i === 1 ? 'Atleta' : 'Antropometria';
   }
@@ -297,7 +317,7 @@ export class SubsComponent implements OnInit {
             });
             // ====================================
 
-            // ========= CREAR PAYMENT (best-effort) =========
+            // ========= CREAR PAYMENT =========
             const uid = this.userIdLS();
             if (uid) {
               const paymentPayload = {

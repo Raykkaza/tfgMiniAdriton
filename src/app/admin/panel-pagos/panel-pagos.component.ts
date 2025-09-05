@@ -47,7 +47,7 @@ export class PanelPagosComponent implements OnInit {
   cargarDatos(): void {
     const headers = this.authHeaders();
 
-    // 1) Usuarios → map id→nombre/email (igual que en tus otros paneles)
+    // 1) Usuarios → map id→nombre/email 
     this.http.get<any[]>('https://miniadritonff.com/api/get_users.php', { headers }).subscribe({
       next: (res) => {
         res.forEach(u => this.usuarios[u.user_id] = u.username);
@@ -131,7 +131,7 @@ export class PanelPagosComponent implements OnInit {
         // El PHP acepta payment_amount o payment_ammount
         payment_ammount: amount,
         payment_concept: String(this.pagoEditando.payment_concept).trim(),
-        payment_date: this.pagoEditando.payment_date // opcional, 'YYYY-MM-DD'
+        payment_date: this.pagoEditando.payment_date // 'YYYY-MM-DD'
       };
 
       this.http.post<any>('https://miniadritonff.com/api/create_payment.php', payload, { headers })

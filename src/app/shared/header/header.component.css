@@ -1,5 +1,4 @@
-/* Refuerza el “branding” y la visibilidad del enlace activo */
-/* Logo responsivo */
+
 .brand-logo {
     min-height: 130px;
     width: auto; 
@@ -11,7 +10,7 @@
 }
 
 
-/* (Opcional) elimina el subrayado del link cuando sea imagen */
+/* elimina el subrayado del link cuando sea imagen */
 .navbar-brand {
     padding-top: 0;
     padding-bottom: 0;
@@ -22,7 +21,6 @@
     font-weight: 600;
 }
 
-/* Opcional: agranda el icono desplegable si te gusta */
 .dropdown-toggle::after {
     margin-left: .25rem;
 }

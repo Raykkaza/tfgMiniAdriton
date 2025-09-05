@@ -99,7 +99,7 @@ export class PanelUsuariosComponent implements OnInit {
       next: (res) => {
         this.usuarios = res;
 
-        // ⚠️ destruir si ya existe
+        // destruir si ya existe
         if ($.fn.DataTable.isDataTable('#usuariosTable')) {
           $('#usuariosTable').DataTable().destroy();
         }
@@ -194,7 +194,6 @@ export class PanelUsuariosComponent implements OnInit {
       });
   }
 
-  // mismo patrón que consultas
   reloadComponent(): void {
     const currentUrl = this.router.url;
     setTimeout(() => {

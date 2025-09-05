@@ -11,8 +11,7 @@ import { BlogService, BlogPost } from '../services/blog.service';
 export class HomeComponent {
 
   ngOnInit(): void {
-    // Aquí puedes realizar cualquier inicialización necesaria
-    // Por ejemplo, cargar datos o configurar el componente
+
   console.log('HomeComponent initialized');
   
   }

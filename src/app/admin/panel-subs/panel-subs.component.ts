@@ -158,7 +158,7 @@ export class PanelSubsComponent implements OnInit {
             error: e => console.error('Error email SUB_ACEPTADA', e)
           });
 
-          // 🔄 recarga
+          // recarga
           this.cargarDatos();
           this.reloadComponent();
         },
@@ -183,7 +183,7 @@ export class PanelSubsComponent implements OnInit {
         next: () => {
           this.subs = this.subs.filter(s => s.sub_id !== sub_id);
 
-          // 🔄 recarga
+          // recarga
           if ($.fn.DataTable.isDataTable('#subsTable')) {
             $('#subsTable').DataTable().destroy();
           }
@@ -262,7 +262,7 @@ export class PanelSubsComponent implements OnInit {
               });
             }
 
-            // 🔄 recarga
+            // recarga
             this.cargarDatos();
             this.reloadComponent();
           },
@@ -301,7 +301,7 @@ export class PanelSubsComponent implements OnInit {
             });
           }
 
-          // 🔄 recarga
+          // recarga
           this.cargarDatos();
           this.reloadComponent();
         },
@@ -352,7 +352,7 @@ export class PanelSubsComponent implements OnInit {
     };
   }
 
-  // ======= Helpers para la plantilla (evitar arrow functions/?? en HTML) =======
+  // ======= Helpers =======
   getTypeById(id: number | null | undefined): SubTypeOpt | undefined {
     if (id == null) return undefined;
     return this.subTypes.find(t => t.id === Number(id));
@@ -381,7 +381,7 @@ export class PanelSubsComponent implements OnInit {
   }
 
 
-  // ======= Recarga de página (gemelo a panel-consultas) =======
+  // ======= Recarga =======
   reloadComponent(): void {
     const currentUrl = this.router.url;
     setTimeout(() => {

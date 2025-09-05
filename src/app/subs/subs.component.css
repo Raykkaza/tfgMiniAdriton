@@ -213,3 +213,118 @@
     padding: .75rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
 }
+
+/* ====== OPINIONES ====== */
+/* ====== Título de Opiniones ====== */
+.subs-opiniones>h3 {
+    text-align: center;
+    font-weight: 800;
+    color: #0c4876;
+    margin: 0 0 1.25rem;
+    letter-spacing: .2px;
+    /* tamaño fluido según ancho */
+    font-size: clamp(1.25rem, 2.2vw + .5rem, 1.8rem);
+}
+
+.subs-opiniones>h3::after {
+    content: "";
+    display: block;
+    width: 72px;
+    height: 4px;
+    margin: .6rem auto 1.2rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #0c4876, #5aa6e8);
+    opacity: .9;
+}
+
+@media (max-width: 768px) {
+    .subs-opiniones>h3::after {
+        width: 56px;
+        height: 3px;
+        margin-bottom: 1rem;
+    }
+}
+
+.subs-opiniones {
+    width: 90%;
+    margin: 3rem auto 0;
+}
+
+/* Tarjeta */
+.opinion-banner {
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+    overflow: hidden;
+    transition: box-shadow .25s ease, transform .25s ease;
+    margin-bottom: 1rem;
+}
+
+.opinion-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, .10);
+}
+
+/* Layout sin gutters */
+.opinion-banner .row {
+    --bs-gutter-x: 0;
+}
+
+/* Columna de imagen con ALTURA FIJA -> uniformidad total */
+.subs-opiniones .opinion-banner .row>.col-12.col-md-4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 350px;
+    width: 300px;
+    /* <-- altura uniforme desktop */
+}
+
+/* Imagen centrada y recortada horizontalmente */
+.subs-opiniones .opinion-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* rellena sin deformar */
+    object-position: center;
+    /* centrada */
+    display: block;
+}
+
+/* Texto */
+.opinion-banner h4 {
+    font-size: 1.25rem;
+    color: #0c4876;
+    font-weight: 700;
+    margin-bottom: 100rem;
+    margin-top: -130px;
+}
+
+.opinion-banner p {
+    color: #3b3b3b;
+    line-height: 1.55;
+    margin-bottom: 0;
+}
+
+.opinion-banner .p-4 {
+    padding: 1.65rem !important;
+}
+
+/* Móvil: un poco menos alto para respirar */
+@media (max-width: 768px) {
+    .subs-opiniones .opinion-banner .row>.col-12.col-md-4 {
+        height: 500px;
+        /* <-- altura uniforme móvil */
+    }
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+
+    .opinion-banner,
+    .opinion-banner:hover {
+        transition: none;
+        transform: none;
+    }
+}

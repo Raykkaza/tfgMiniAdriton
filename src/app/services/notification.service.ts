@@ -77,7 +77,7 @@ export class NotificationService {
       const html =
         `<p>¡Buenas${nombre}! Tu consulta del <strong>${fecha}</strong> ha sido ` +
         `<span style="color:green;font-weight:700">ACEPTADA</span>.</p>
-         <p>Nos vemos en la fecha indicada.</p>
+         <p>Nos vemos en la fecha indicada, puedes contactarme por discord <a href="https://discord.gg/MiniAdritonFF">aquí</a>.</p>
          <p>MiniAdritonFF</p>`;
       return { subject, text, html };
     }
@@ -155,7 +155,7 @@ export class NotificationService {
       const subject = `Tu suscripción ha sido aceptada`;
       const text =
         `¡Buenas${nombre}! Tu suscripción "${s.subTypeNombre}"  ha sido ACEPTADA.\n` +
-        `Importe: ${total}.\n` +
+        `Importe: ${total}/mes.\n` +
         `Vigente hasta: ${fin}.\n\n` +
         `Gracias por tu confianza.\nMiniAdritonFF`;
       const html =
@@ -164,6 +164,7 @@ export class NotificationService {
          <ul>
            <li><strong>Importe:</strong> ${total}</li>
            <li><strong>Vigente hasta:</strong> ${fin}</li>
+
          </ul>
          <p>Gracias por tu confianza.<br>MiniAdritonFF</p>`;
       return { subject, text, html };

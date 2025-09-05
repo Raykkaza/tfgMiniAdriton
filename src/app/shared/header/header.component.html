@@ -2,13 +2,8 @@
     <nav class="navbar navbar-expand-lg px-3 navbar-compact navbar-img">
         <!-- Brand / logo -->
         <a class="navbar-brand d-flex align-items-center" routerLink="/">
-            <img src="logo.png" 
-            alt="MiniAdritonFF"
-            class="brand-logo"
-            height="40"
-            width="auto"
-            loading="lazy"
-            />      </a>
+            <img src="logo.png" alt="MiniAdritonFF" class="brand-logo" height="40" width="auto" loading="lazy" />
+        </a>
 
         <!-- Mobile toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
@@ -27,11 +22,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="https://miniadritonff.com/blog" target="_blank">Blog</a>
                 </li>
-                <li class="nav-item">
+
+                <!-- Consultas: solo con sesión + suscripción activa -->
+                <li class="nav-item" *ngIf="loggedIn && activeSub">
                     <a class="nav-link" routerLink="/consultas" routerLinkActive="active">Consultas</a>
                 </li>
 
-                <li class="nav-item">
+                <!-- Suscribirme: solo con sesión + SIN suscripción activa -->
+                <li class="nav-item" *ngIf="loggedIn && !activeSub">
                     <a class="nav-link" routerLink="/subs" routerLinkActive="active">Suscribirme</a>
                 </li>
 

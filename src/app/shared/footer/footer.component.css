@@ -1,0 +1,31 @@
+.footer-branding {
+    /* Azul muy claro, apenas un 10-15 % de $primary  */
+    background-color: rgba(var(--bs-primary-rgb), .08);
+
+    /* Borde superior un poco más marcado para separar del cuerpo  */
+    border-top: 3px solid rgba(var(--bs-primary-rgb), .25);
+
+    /* Texto principal en tonos azul-oscuro para buen contraste   */
+    color: var(--bs-primary-text-emphasis, #0d3d8c);
+}
+
+/* Enlaces y logos */
+.footer-branding a {
+    color: inherit;
+    /* hereda el azul principal */
+    opacity: .85;
+    transition: opacity .15s;
+}
+
+.footer-branding a:hover,
+.footer-branding a:focus {
+    opacity: 1;
+    text-decoration: none;
+}
+
+/* Iconos de redes */
+.footer-branding .bi {
+    font-size: 1.45rem;
+    /* ≈23 px */
+    vertical-align: middle;
+}

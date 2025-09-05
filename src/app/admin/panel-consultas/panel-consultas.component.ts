@@ -70,7 +70,7 @@ export class PanelConsultasComponent implements OnInit {
               username: this.usuarios[ev.meta.userId] || `ID ${ev.meta.userId}`
             }));
 
-            // ⚠️ Destruir solo si ya existe una DataTable
+            // Destruir solo si ya existe una DataTable
             if ($.fn.DataTable.isDataTable('#consultasTable')) {
               $('#consultasTable').DataTable().destroy();
             }
@@ -87,7 +87,7 @@ export class PanelConsultasComponent implements OnInit {
                 searching: true,
                 info: true
               });
-            }, 50); // ⏱ Ajusta si ves que sigue fallando
+            }, 50); 
           }
         });
       }
@@ -102,7 +102,7 @@ export class PanelConsultasComponent implements OnInit {
     const cita = this.citas.find(c => c.app_id === app_id);
     if (!cita) return;
 
-    // 2) Llama a tu backend para aprobar
+    // 2) Llama backend para aprobar
     this.appointmentsService.approveAppointment(token, app_id).subscribe(() => {
       // 3) Refresca estado en la UI
       cita.status = 1;
@@ -147,7 +147,7 @@ export class PanelConsultasComponent implements OnInit {
     // 3) Elimina en backend y refresca tabla
     this.appointmentsService.deleteAppointment(token, app_id).subscribe(() => {
       this.citas = this.citas.filter(c => c.app_id !== app_id);
-      this.reloadComponent(); // ya lo tenías
+      this.reloadComponent(); 
     });
   }
 
@@ -162,7 +162,7 @@ export class PanelConsultasComponent implements OnInit {
       horaFin: fin.toTimeString().slice(0, 5)
     };
 
-    // Generar horas disponibles (por ejemplo: de 07:00 a 21:00)
+    // Generar horas disponibles
     const horas: string[] = [];
     for (let h = 7; h < 22; h++) {
       const hora = `${h.toString().padStart(2, '0')}:00`;
@@ -212,7 +212,7 @@ export class PanelConsultasComponent implements OnInit {
       modal.hide();
 
       this.cargarDatos(); // actualiza todo
-      this.reloadComponent(); // 🔄 recarga completa del componente
+      this.reloadComponent(); // recarga completa del componente
     });
   }
 
@@ -235,9 +235,7 @@ export class PanelConsultasComponent implements OnInit {
     }, 150);
   }
 
-  // ==============================
   //        NUEVA CITA (ADD)
-  // ==============================
 
   abrirCrearCita(): void {
     // reset del formulario
@@ -325,7 +323,7 @@ export class PanelConsultasComponent implements OnInit {
 
           // recarga datos y DataTable
           this.cargarDatos();
-          this.reloadComponent(); // ya lo tienes implementado
+          this.reloadComponent();
         },
         error: (e) => {
           console.error('Error al crear la cita', e);
